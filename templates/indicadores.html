@@ -10,7 +10,7 @@
     <meta name="autor" content="Diego, Iñigo, Marcia y Agustín">
 
     <!-- Open Graph. Para compartir página en Facebook -->
-    <meta property="og:title" content="StarDreams | Juego Movimiento STEM">
+    <meta property="og:title" content="StarDreams | Indicadores STEM">
     <meta property="og:description" content="¡Viaja por mundos fantásticos en tus sueños, mientras aprendes sobre ciencias y tecnologías!">
     <meta property="og:locale" content="es_ES" />
 
@@ -21,7 +21,7 @@
 
     <!-- Stylesheets -->
     {% load static %}
-    <link rel="stylesheet" href="{% static 'assets/styles/indicadores.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/styles/indicadores2.css' %}">
     <link rel="stylesheet" href="{% static 'assets/styles/nav.css' %}">
     <!-- Bootstrap. Ayuda para el CSS. -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -33,7 +33,7 @@
     
     <!--    <script src="https://d3js.org/d3.v5.js"></script>-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <!-- <script src="scripts/graphs.js"></script> -->
+    <script src="{% static 'assets/scripts/graphs.js' %}"></script>
 </head>
 <body>
 
@@ -47,22 +47,22 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-links" href="index.html">Juego <span class="sr-only">(current)</span></a>
+                    <a class="nav-links" href="{% url 'index' %}">Juego <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-links" href="index.html">Movimiento STEM</a>
+                    <a class="nav-links" href="{% url 'index' %}">Movimiento STEM</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-links" href="indicadores.html">Indicadores</a>
+                    <a class="nav-links" href="#">Indicadores</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-links" href="index.html">Documentación</a>
+                    <a class="nav-links" href="{% url 'index' %}">Documentación</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <div style="background-color: #E6317B;" class="py-1">
-                        <a class="nav-links" href="ejecutables/0.1/web/index.html" style="color: #fff;">Juégalo ahora</a>
+                        <a class="nav-links" href="{% static 'ejecutables/0.1/web/index.html' %}" style="color: #fff;">Juégalo ahora</a>
                     </div>
                 </li>
                 <li class="nav-item pt-1" >
