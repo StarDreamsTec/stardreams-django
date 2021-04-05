@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>StarDreams | Indicadores STEM</title>
+    <meta name="description" content="¡Viaja por mundos fantásticos en tus sueños, mientras aprendes sobre ciencias y tecnologías!">
+    <meta name="autor" content="Diego, Iñigo, Marcia y Agustín">
+
+    <!-- Open Graph. Para compartir página en Facebook -->
+    <meta property="og:title" content="StarDreams | Juego Movimiento STEM">
+    <meta property="og:description" content="¡Viaja por mundos fantásticos en tus sueños, mientras aprendes sobre ciencias y tecnologías!">
+    <meta property="og:locale" content="es_ES" />
+
+    <!-- Twitter Cards. Para compartir página en Facebook -->
+    <meta name="twitter:title" content="StarDreams | Juego Movimiento STEM">
+    <meta name="twitter:description" content="¡Viaja por mundos fantásticos en tus sueños, mientras aprendes sobre ciencias y tecnologías!">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Stylesheets -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'assets/styles/indicadores.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/styles/nav.css' %}">
+    <!-- Bootstrap. Ayuda para el CSS. -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <!-- Tipografía de Google Fonts. -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet">
+    <!-- Página para íconos.  -->
+    <script src="https://kit.fontawesome.com/01b9abcee1.js" crossorigin="anonymous"></script>
+    
+    <!--    <script src="https://d3js.org/d3.v5.js"></script>-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <!-- <script src="scripts/graphs.js"></script> -->
+</head>
+<body>
+
+    <!-- Nav bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white" style="position: -webkit-sticky;position: sticky; top: 0; z-index: 10">
+        <img src="{% static 'assets/icons/Stardreams_logo.svg' %}" alt="" class="mr-4 py-3" style="width: 160px; margin-left: 0;">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-links" href="index.html">Juego <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-links" href="index.html">Movimiento STEM</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-links" href="indicadores.html">Indicadores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-links" href="index.html">Documentación</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <div style="background-color: #E6317B;" class="py-1">
+                        <a class="nav-links" href="ejecutables/0.1/web/index.html" style="color: #fff;">Juégalo ahora</a>
+                    </div>
+                </li>
+                <li class="nav-item pt-1" >
+                    <a class="nav-links" href="#">Mi cuenta</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <h1>Indicadores STEM</h1>
+
+        <div>
+            <h3> Total de jugadores del mes</h3>
+            <img src="{% static 'assets/imgs/mesNinos.png' %}" class="imagenes">
+            <span class="center spans"> 2869 </span>
+        </div>
+
+        <div>
+            <h3> Total de jugadores</h3>
+            <img src="{% static 'assets/imgs/totalNinos.png' %}" class="imagenes">
+            <span class="center spans"> 51433 </span>
+        </div>
+
+        <div>
+            <h3> Terminaron el videojuego </h3>
+            <span class="center spans">  35269</span>
+        </div>
+
+        <div>
+            <h3> Rama STEM Preferida</h3>
+            <span class="center spans"> Tecnología </span>
+        </div>
+
+        <div>
+            <h3> Distribución de jugadores </h3>
+            <div id="genderDistribution"></div>
+        </div>
+
+        <div>
+            <h3> Edades de los jugadores </h3>
+            <div id="playersAge"></div>
+        </div>
+
+        <div>
+            <h3> Impacto de la edad del profesor </h3>
+            <div id="ageSuccess"> </div>
+        </div>
+
+        <div>
+            <h3> Preferencia por rama STEM </h3>
+            <div id="areaPreference"></div>
+        </div>
+
+        <div>
+            <h3> Nivel Ciencias</h3>
+            <span class="spans"> Jugadores que completaron: 23678 </span>
+            <span class="spans"> Tiempo Medio: 2hr </span>
+            <span class="spans"> Orden de juego promedio: 3 </span>
+        </div>
+
+        <div>
+            <h3> Nivel Tecnología</h3>
+            <span class="spans"> Jugadores que completaron: 35678 </span>
+            <span class="spans"> Tiempo Medio: 3hr </span>
+            <span class="spans"> Orden de juego promedio: 1 </span>
+        </div>
+
+        <div>
+            <h3> Nivel Ingeniería </h3>
+            <span class="spans"> Jugadores que completaron: 20694 </span>
+            <span class="spans"> Tiempo Medio: 1.5hr </span>
+            <span class="spans"> Orden de juego promedio: 2 </span>
+        </div>
+
+        <div>
+            <h3> Nivel Matemáticas</h3>
+            <span class="spans"> Jugadores que completaron: 15371 </span>
+            <span class="spans"> Tiempo Medio: 3hr </span>
+            <span class="spans"> Orden de juego promedio: 4 </span>
+        </div>
+
+    </main>
+
+
+    <!-- Scripts -->
+<!-- <script src="script.js"></script> -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+</body>
+</html>

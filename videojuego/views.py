@@ -6,3 +6,6 @@ from django.http import HttpResponse
 def index(request):
 	#return HttpResponse('<h1>Hola desde Django</h1>')
 	return render(request, 'index.html')
+
+def indicadores(request):
+	return render(request, 'indicadores.html')

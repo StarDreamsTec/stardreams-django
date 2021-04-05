@@ -1,17 +1,161 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
+    <!-- Meta tags -->
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>StarDreams | Juego Movimiento STEM</title>
+    <meta name="description" content="¡Viaja por mundos fantásticos en tus sueños, mientras aprendes sobre ciencias y tecnologías!">
+    <meta name="autor" content="Diego, Iñigo, Marcia y Agustín">
+
+    <!-- Open Graph. Para compartir página en Facebook -->
+    <meta property="og:title" content="StarDreams | Juego Movimiento STEM">
+    <meta property="og:description" content="¡Viaja por mundos fantásticos en tus sueños, mientras aprendes sobre ciencias y tecnologías!">
+    <meta property="og:locale" content="es_ES" />
+
+    <!-- Twitter Cards. Para compartir página en Facebook -->
+    <meta name="twitter:title" content="StarDreams | Juego Movimiento STEM">
+    <meta name="twitter:description" content="¡Viaja por mundos fantásticos en tus sueños, mientras aprendes sobre ciencias y tecnologías!">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Stylesheets -->
     {% load static %}
-    <link rel="stylesheet" href="{% static 'estilo.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/styles/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/styles/nav.css' %}">
+    <!-- Bootstrap. Ayuda para el CSS. -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <!-- Tipografía de Google Fonts. -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet">
+      <!-- Página para íconos.  -->
+    <script src="https://kit.fontawesome.com/01b9abcee1.js" crossorigin="anonymous"></script>
+    
 </head>
 <body>
-    <h1>
-        Esta es la app
-    </h1>
+  
+<!-- Nav bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white" style="position: -webkit-sticky;position: sticky; top: 0; z-index: 10"> 
+  <!-- <img src="assets/icons/Stardreams_logo.svg" alt="" style="width: 160px;" class="mr-4 py-3"> -->
+  <img src="{% static 'assets/icons/Stardreams_logo.svg' %}" alt="" style="width: 160px;" class="mr-4 py-3">
+  <!-- <a class="navbar-brand" href="#">Stardreams</a> -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-links" href="#">Juego <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-links" href="#org-steam">Movimiento STEM</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-links" href="{% url 'indicadores' %}">Indicadores</a>
+        <!-- <a class="nav-links" href="indicadores.html">Indicadores</a> -->
+      </li>
+      <li class="nav-item">
+        <a class="nav-links" href="#sd-info">Documentación</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <div style="background-color: #E6317B;" class="py-1">
+          <a class="nav-links" href="ejecutables/0.1/web/index.html" style="color: #fff;">Juégalo ahora</a>
+        </div>
+      </li>
+      <li class="nav-item pt-1" >
+        <a class="nav-links" href="#">Mi cuenta</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+    <!-- Landing page en el header -->
+    <header id="my-header">
+      <div class="container">
+        <div id="first-box">
+          <div>
+            <p class="p-h1">Stardreams</p>
+          </div>
+            
+            <div class="classy-div mx-auto" style="width: 80%;">
+              <a href="ejecutables/0.1/web/index.html">
+                <img src="{% static 'assets/icons/play.svg'%}" alt="" style="height: 12px; filter: invert(100%) sepia(0%) saturate(2985%) hue-rotate(215deg) brightness(114%) contrast(101%);">
+                <p class="p-h3 px-3" style="display: inline;">Juégalo gratis</p>
+                <img src="{% static 'assets/icons/play.svg' %}" alt="" style="height: 12px; filter: invert(100%) sepia(0%) saturate(2985%) hue-rotate(215deg) brightness(114%) contrast(101%); transform: rotate(180deg);">
+              </a>
+            </div>
+        </div>
+
+      </div>
+
+      
+    </header>
+
+    <!-- Resto del contenido -->
+    <main>
+      <section id="juego">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12 col-md-6 sec-text">
+              <div class="sec-text-inside">
+                <p class="p-h2">StarDreams</p>
+                <p class="p-h6 mt-5">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Modi vero laboriosam iste veritatis est dignissimos dolores voluptatibus eius, debitis neque nesciunt veniam ut distinctio et corporis, quisquam laborum voluptate! Cupiditate?</p>
+                <p class="p-h6 mt-5 mb-0">Conoce</p>
+                <div style="background-color: white; width: 150px;" class="mx-auto py-1">
+                  <a href="" style="color: #E6317B; text-decoration: none;">Movimiento STEM</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div>
+                <img src="{% static 'assets/imgs/ChavaBig.png' %}" alt="Foto chava" class="character-img">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="movimiento-stem">
+        <div class="container">
+            <div class="sec-text-p">
+              <p class="p-h2 text-center" id="org-steam">Movimiento STEM</p>
+              <p class="p-h6 mt-5">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Modi vero laboriosam iste veritatis est dignissimos dolores voluptatibus eius, debitis neque nesciunt veniam ut distinctio et corporis, quisquam laborum voluptate! Cupiditate?</p>
+            </div>
+            <div class="row pb-5">
+              <div class="col-2">
+                <div style="margin-left: auto; margin-right: 0;">
+                  <img src="{% static 'assets/icons/maths.svg' %}" alt="Maths icon" class="icons">
+                  <br>
+                  <img src="{% static 'assets/icons/science.svg' %}" alt="Science icon" class="icons">
+                  <br>
+                  <img src="{% static 'assets/icons/tech.svg' %}" alt="Science icon" class="icons">
+                  <br>
+                  <img src="{% static 'assets/icons/settings.svg' %}" alt="Settings icon" class="icons">
+                </div>
+              </div>
+              <div class="col-10" >
+                <p class="p-h4">Ingeniería</p>
+                <p class="p-h6 mt-3">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Modi vero laboriosam iste veritatis est dignissimos dolores voluptatibus eius, debitis neque nesciunt veniam ut distinctio et corporis, quisquam laborum voluptate! Cupiditate?</p>
+              </div>
+
+            </div>
+
+        </div>
+
+
+      </section>
+
+    </main>
     
+
+<!-- Scripts -->
+<!-- <script src="script.js"></script> -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
 </body>
 </html>

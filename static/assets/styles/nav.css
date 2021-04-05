@@ -1,0 +1,25 @@
+
+/* Nav Bar */
+.my-nav {
+    background-color: white;    
+}
+
+nav {
+    -webkit-box-shadow: 0px 3px 25px 0px rgba(0,0,0,0.13);
+    -moz-box-shadow: 0px 3px 25px 0px rgba(0,0,0,0.13);
+    box-shadow: 0px 3px 25px 0px rgba(0,0,0,0.13);
+}
+
+.nav-links {
+    color: #E6317B;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    font-family: 'BlenderPro-Medium', sans-serif;
+    font-size: 18px;
+}
+
+.nav-links:hover {
+    color: #d82e75;
+    text-decoration: none;
+}
