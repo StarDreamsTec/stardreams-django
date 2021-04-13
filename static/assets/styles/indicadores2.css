@@ -33,7 +33,7 @@ h3{
     font-size:40px;
 }
 
-main{
+body main{
     box-sizing: border-box;
     display: flex;
     flex-flow: row wrap;
