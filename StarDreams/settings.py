@@ -78,9 +78,9 @@ WSGI_APPLICATION = 'StarDreams.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'steam',
-	'USER': 'diego',
-	'PASSWORD': 'ret0St3am',
+        'NAME': 'steamreto',
+	'USER': 'steamadmin',
+	'PASSWORD': '1234Steam',
 	'HOST': 'localhost',
 	'PORT': '5432',
     }
