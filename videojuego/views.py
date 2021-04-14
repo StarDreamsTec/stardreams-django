@@ -2,8 +2,11 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import SignUp
 from django.contrib.auth import login, authenticate
-
-
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+from json import loads
+# from . models import Reto
+import psycopg2
 # Create your views here.
 
 def index(request):
@@ -28,3 +31,10 @@ def signup(request):
     else:
         form = SignUp()
     return render(request, 'signup.html', {'form': form})
+
+
+def login(request):
+	return render(request, 'registration/login.html')
+
+def register(request):
+	return render(request, 'registration/register.html')

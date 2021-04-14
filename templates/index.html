@@ -9,16 +9,6 @@
     <meta name="description" content="¡Viaja por mundos fantásticos en tus sueños, mientras aprendes sobre ciencias y tecnologías!">
     <meta name="autor" content="Diego, Iñigo, Marcia y Agustín">
 
-    <!-- Open Graph. Para compartir página en Facebook -->
-    <meta property="og:title" content="StarDreams | Juego Movimiento STEM">
-    <meta property="og:description" content="¡Viaja por mundos fantásticos en tus sueños, mientras aprendes sobre ciencias y tecnologías!">
-    <meta property="og:locale" content="es_ES" />
-
-    <!-- Twitter Cards. Para compartir página en Facebook -->
-    <meta name="twitter:title" content="StarDreams | Juego Movimiento STEM">
-    <meta name="twitter:description" content="¡Viaja por mundos fantásticos en tus sueños, mientras aprendes sobre ciencias y tecnologías!">
-    <meta name="twitter:card" content="summary_large_image">
-
     <!-- Stylesheets -->
     {% load static %}
     <link rel="stylesheet" href="{% static 'assets/styles/style.css' %}">
@@ -66,7 +56,7 @@
         </div>
       </li>
       <li class="nav-item pt-1" >
-        <a class="nav-links" href="#">Mi cuenta</a>
+        <a class="nav-links" href="{% url 'login' %}">Mi cuenta</a>
       </li>
     </ul>
   </div>
