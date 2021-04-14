@@ -1,7 +1,9 @@
 from django.db import models
+from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 import random, string
-
+from django.contrib.auth.models import User
+import django.db.models.signals as signals
 
 # Create your models here.
 
@@ -20,10 +22,14 @@ class Rama(models.IntegerChoices):
 
 
 class Profesor(models.Model):
-    nombre = models.CharField(max_length=50)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        default="",
+        null=True
+    )
     genero = models.IntegerField(choices=Genero.choices, default=Genero.OTRO)
     edad = models.PositiveIntegerField()
-    correoElectronico = models.EmailField()
     gradoEscolar = models.PositiveIntegerField()
     token = models.CharField(max_length=10,
                            blank=True,
@@ -37,8 +43,20 @@ class Profesor(models.Model):
         super(Profesor, self).save(*args, **kwargs)
 
 
+@receiver(signals.post_save, sender=Profesor)
+def update_profile_signal(sender, instance, created, **kwargs):
+    if created:
+        Profesor.objects.create(user=instance)
+    instance.profile.save()
+
+
 class Jugador(models.Model):
-    nombre = models.CharField(max_length=50)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        default="",
+        null=True
+    )
     genero = models.IntegerField(choices=Genero.choices, default=Genero.OTRO)
     edad = models.PositiveIntegerField()
     gradoEscolar = models.PositiveIntegerField()
