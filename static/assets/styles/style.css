@@ -123,6 +123,31 @@
     width: 100%;
 }
 
+.login-div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color:#E6317B;
+    width: 90%;
+    max-width: 700px;
+    height: 470px;
+}
+
+/* Dashboard Style */
+.top-square {
+    width: 100vw;
+    height: 200px;
+    background-image: url(../imgs/MainBG.jpg);
+    background-color: #E6317B;
+    color: red;
+}
+
+.welcome-text {
+    font-size: 2rem;
+    text-shadow: 1px 1px 2px black;
+}
+
 
 @media (max-width: 991.98px) {
 #my-header {

@@ -11,7 +11,7 @@
 
     <!-- Stylesheets -->
     {% load static %}
-    <link rel="stylesheet" href="{% static 'assets/styles/style2.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/styles/style.css' %}">
     <link rel="stylesheet" href="{% static 'assets/styles/nav.css' %}">
     <!-- Bootstrap. Ayuda para el CSS. -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -37,21 +37,23 @@
         <div class="text-center bg-white py-3 mx-1 mt-1" style="color: #E6317B;">
           Iniciar Sesión
         </div>
-        <form method="post" action="">
+        
           <div class="container text-center" style="color: white;">
             <br>
-            <label for="username">Nombre de usuario</label>
-            <br>
-            <input type="text" placeholder="nombre de usuario" name="username">
-            <br>
-            <br>
-            <label for="password">Contraseña</label>
-            <br>
-            <input type="password" placeholder="contraseña" name="password">
-            <br>
-            <br>
-            <br>
-            <button type="submit" style="border: none; color: #E6317B;" class="py-1 px-3" >Iniciar sesión</button>
+            <form method="post" action="">
+              <label for="username">Nombre de usuario</label>
+              <br>
+              <input type="text" placeholder="nombre de usuario" name="username">
+              <br>
+              <br>
+              <label for="password">Contraseña</label>
+              <br>
+              <input type="password" placeholder="contraseña" name="password">
+              <br>
+              <br>
+              <br>
+              <button type="submit" style="border: none; color: #E6317B;" class="py-1 px-3" >Iniciar sesión</button>
+            </form>
           </div>
           <div class="text-center mt-4" style="color: white;">
             <p class="mb-0">No tienes cuenta?</p>
@@ -59,7 +61,7 @@
           </div>
           
 
-        </form>
+        
       </div>
      
       
