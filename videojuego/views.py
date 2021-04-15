@@ -5,7 +5,9 @@ from .forms import *
 from django.contrib.auth import login, authenticate
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login as auth_login
 import json
+
 
 # Create your views here.
 
@@ -14,6 +16,7 @@ def index(request):
     return render(request, 'index.html')
 
 
+@login_required(login_url='login/')
 def indicadores(request):
     return render(request, 'indicadores.html')
 
@@ -32,6 +35,11 @@ def signup(request):
                 if form.is_valid():
                     user = form.save()
                     user.refresh_from_db()
+                    username = form.cleaned_data.get('username')
+                    password = form.cleaned_data.get('password1')
+                    user = authenticate(username, password)
+                    auth_login(request, user)
+                    return redirect('indicadores/')
                 return render(request, 'signup.html', {'form': form})
         elif request.method == 'CUSTOM':
             if type_user != 0:

@@ -43,14 +43,6 @@ class Profesor(models.Model):
         super(Profesor, self).save(*args, **kwargs)
 
 
-@receiver(signals.post_save, sender=User)
-def update_profile_signal(sender, instance, created, **kwargs):
-    print(kwargs)
-    if created:
-        Profesor.objects.create(user=instance)
-    instance.profile.save()
-
-
 class Jugador(models.Model):
     user = models.OneToOneField(
         User,
