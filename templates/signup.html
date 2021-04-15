@@ -1,28 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
 
+{% block style %}
+    <link rel="stylesheet" href="{% static 'assets/styles/style2.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/styles/nav.css' %}">
+    <!-- Bootstrap. Ayuda para el CSS. -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+{% endblock %}
 
+{% block navbar %} {% endblock %}
 
+{% block content %}
+    <main id="login-bg">
+        <a href="{% url 'index' %}">
+            <div class="text-center pt-3">
+                <img src="{% static 'assets/imgs/Logo2.png' %}" alt="Logo" style="width: 300px;">
+            </div>
+        </a>
+        <div class="login-div">
+            <div class="text-center bg-white py-3 mx-1 mt-1" style="color: #E6317B;">
+                Registro
+            </div>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'estilo.css' %}">
+            <div class="text-center container">
+                <br><br>
+                <input type="radio" id="student" name="type" value="1">
+                <label for="student">Estudiante</label>
+                &nbsp;&nbsp;&nbsp;
+                <input type="radio" id="teacher" name="type" value="2">
+                <label for="teacher">Profesor</label>
+                <br><br>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="row justify-content-center" style="color: white;">
+                    <table id="fill" class="text-left">
+                        {{ form.as_table }}
+                    </table>
+                </div>
+                <div class="text-center" id="sbutton" >
+                        <br><br>
+                        <button type="submit" style="border: none; color: #E6317B; " class="py-1 px-3">Registrarme</button>
+                        <br>
+                    </div>
+                <div class="text-center mt-4" style="color: white;">
+                    <p class="mb-0">Ya tienes cuenta?</p>
+                    <a href="{% url 'login' %}" style="color: white; text-decoration: underline;">Inicia sesión</a>
+                </div>
+            </form>
+
+        </div>
+    </main>
+{% endblock %}
+
+{% block extra_scripts %}
     <script>
-        window.addEventListener("load", function(){
-
+        window.addEventListener("load", function () {
+            document.cookie = "type = 0";
+            let radio = document.querySelectorAll('input[name="type"]')
+            for(let i = 0; i < radio.length; i++){
+                radio[i].addEventListener("change", function(){
+                    document.cookie = "type = " + radio[i].value + "; path=/";
+                    let options = {
+                        method: 'CUSTOM',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                            "X-CSRFToken": "{{ csrf_token }}"
+                        },
+                    }
+                    fetch('/signup/', options)
+                        .then(res => res.text())
+                        .then(res => {
+                            document.getElementById("fill").innerHTML = res;
+                        });
+                });
+            }
         });
     </script>
-</head>
-<body>
-    <h2>Sign up</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Sign up</button>
-    </form>
-</body>
-</html>
+{% endblock %}

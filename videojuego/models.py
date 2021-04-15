@@ -26,9 +26,9 @@ class Profesor(models.Model):
         User,
         on_delete=models.CASCADE,
         default="",
-        null=True
+        null=False
     )
-    genero = models.IntegerField(choices=Genero.choices, default=Genero.OTRO)
+    genero = models.IntegerField(choices=Genero.choices, default=Genero.OTRO, null=True)
     edad = models.PositiveIntegerField()
     gradoEscolar = models.PositiveIntegerField()
     token = models.CharField(max_length=10,
@@ -43,8 +43,9 @@ class Profesor(models.Model):
         super(Profesor, self).save(*args, **kwargs)
 
 
-@receiver(signals.post_save, sender=Profesor)
+@receiver(signals.post_save, sender=User)
 def update_profile_signal(sender, instance, created, **kwargs):
+    print(kwargs)
     if created:
         Profesor.objects.create(user=instance)
     instance.profile.save()
@@ -55,7 +56,7 @@ class Jugador(models.Model):
         User,
         on_delete=models.CASCADE,
         default="",
-        null=True
+        null=False
     )
     genero = models.IntegerField(choices=Genero.choices, default=Genero.OTRO)
     edad = models.PositiveIntegerField()
