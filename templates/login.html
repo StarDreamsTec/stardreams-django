@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'assets/styles/style2.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/styles/nav.css' %}">
+    <!-- Bootstrap. Ayuda para el CSS. -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+{% endblock %}
+
+{% block navbar %} {% endblock %}
+
+{% block content %}
+    <main id="login-bg">
+        <a href="{% url 'index' %}">
+            <div class="text-center pt-3">
+                <img src="{% static 'assets/imgs/Logo2.png' %}" alt="Logo" style="width: 300px;">
+            </div>
+        </a>
+        <div class="login-div">
+            <div class="text-center bg-white py-3 mx-1 mt-1" style="color: #E6317B;">
+                Iniciar Sesión
+            </div>
+            <br><br>
+            <form method="post" action="">
+                {% csrf_token %}
+                <div class="row justify-content-center" style="color: white;">
+                    <table id="fill" class="text-left">
+                        {{ form.as_table }}
+                    </table>
+                </div>
+                <div class="text-center" id="sbutton" >
+                        <br><br>
+                        <button type="submit" style="border: none; color: #E6317B; " class="py-1 px-3">Iniciar Sesión</button>
+                        <br>
+                </div>
+                <div class="text-center mt-4" style="color: white;">
+                    <p class="mb-0">No tienes cuenta?</p>
+                    <a href="{% url 'signup' %}" style="color: white; text-decoration: underline;">Regístrate aquí</a>
+                </div>
+            </form>
+        </div>
+    </main>
+{% endblock %}

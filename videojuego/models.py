@@ -33,6 +33,7 @@ class Profesor(models.Model):
     gradoEscolar = models.PositiveIntegerField()
     token = models.CharField(max_length=10,
                            blank=True,
+                            null=True,
                            editable=False)
 
     def save(self, *args, **kwargs):
@@ -53,20 +54,20 @@ class Jugador(models.Model):
     genero = models.IntegerField(choices=Genero.choices, default=Genero.OTRO)
     edad = models.PositiveIntegerField()
     gradoEscolar = models.PositiveIntegerField()
-    tiempoJuego = models.PositiveIntegerField()
-    ramaPreferida = models.IntegerField(choices=Rama.choices)
-    profesor = models.ForeignKey(Profesor, models.SET_NULL, blank=True, null=True)
+    tiempoJuego = models.PositiveIntegerField(blank=True, null=True)
+    ramaPreferida = models.IntegerField(choices=Rama.choices, blank=True, null=True)
+    profesor = models.CharField(max_length=10, blank=True, null=True)
 
 
 class Sesion(models.Model):
-    horaInicio = models.DateTimeField()
-    horaFin = models.DateTimeField()
+    duracion = models.PositiveIntegerField(blank=True, null=True)
+    fecha = models.DateField(blank=True, null=True)
     jugador = models.ForeignKey(Jugador, models.CASCADE, blank=False, null=False)
 
 
 class Nivel(models.Model):
     completado = models.BooleanField()
-    tiempo = models.PositiveIntegerField()
+    tiempo = models.PositiveIntegerField(blank=True, null=True) # Tiempo que tomó completarlo
     rama = models.IntegerField(choices=Rama.choices)
-    tiempoTerminacion = models.DateTimeField(null=True)
+    tiempoTerminacion = models.DateTimeField(null=True) # Cuál es el mas reciente
     jugador = models.ForeignKey(Jugador, models.CASCADE, blank=False, null=False)

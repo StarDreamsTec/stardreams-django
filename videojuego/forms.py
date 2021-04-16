@@ -23,7 +23,11 @@ class SignUpProfessor(UserCreationForm):
     def save(self):
         data = self.cleaned_data
         user = super(UserCreationForm, self).save()
-        professor = Profesor.objects.create(user=user, genero=data['genero'], edad=data['edad'], gradoEscolar=data['gradoEscolar'])
+        professor = Profesor.objects.create(user=user, genero=data['genero'], edad=data['edad'],
+                                            gradoEscolar=data['gradoEscolar'])
+        professor.refresh_from_db()
+        if professor is None:
+            user.delete()
         return professor
 
 
@@ -46,4 +50,12 @@ class SignUpStudent(UserCreationForm):
         user = super(UserCreationForm, self).save()
         student = Jugador.objects.create(user=user, genero=data['genero'], edad=data['edad'],
                                            gradoEscolar=data['gradoEscolar'], profesor=data['tokenProfesor'])
+        student.refresh_from_db()
+        if student is None:
+            user.delete()
         return student
+
+
+class Login(forms.Form):
+    username = forms.CharField(max_length=30, required=True, label='Username')
+    password = forms.CharField(widget=forms.PasswordInput(), required=True, label='Password')

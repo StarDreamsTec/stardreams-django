@@ -7,17 +7,17 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login
 import json
-
+from django.contrib import messages
 
 # Create your views here.
 
 def index(request):
-    # return HttpResponse('<h1>Hola desde Django</h1>')
     return render(request, 'index.html')
 
 
-@login_required(login_url='login/')
+@login_required(login_url='/login/')
 def indicadores(request):
+    print(request.user)
     return render(request, 'indicadores.html')
 
 
@@ -35,11 +35,9 @@ def signup(request):
                 if form.is_valid():
                     user = form.save()
                     user.refresh_from_db()
-                    username = form.cleaned_data.get('username')
-                    password = form.cleaned_data.get('password1')
-                    user = authenticate(username, password)
-                    auth_login(request, user)
-                    return redirect('indicadores/')
+                    django_user = user.user
+                    auth_login(request, django_user, backend='django.contrib.auth.backends.ModelBackend')
+                    return redirect('/indicadores/')
                 return render(request, 'signup.html', {'form': form})
         elif request.method == 'CUSTOM':
             if type_user != 0:
@@ -53,8 +51,17 @@ def signup(request):
 
 
 def login(request):
-    return render(request, 'registration/login.html')
-
-
-def register(request):
-    return render(request, 'registration/register.html')
+    if request.method == 'POST':
+        form = Login(request.POST)
+        if form.is_valid():
+            data=form.cleaned_data
+            user=authenticate(request, username=data['username'], password=data['password'])
+            if user is not None:
+                auth_login(request, user)
+                return redirect('/indicadores/')
+            else:
+                messages.error(request, 'username or password not correct')
+                return redirect('/login/')
+    else:
+        form=Login()
+    return render(request, 'login.html', {'form':form})
