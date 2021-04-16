@@ -6,6 +6,7 @@ urlpatterns = [
     path('indicadores/', views.indicadores, name='indicadores'),
     path('signup/', views.signup, name='signup'),
     path('login/', views.login, name='login'),
+    path('dashboard/', views.dashboard, name='dashboard'),
 ]
 
 #urlpatterns += [

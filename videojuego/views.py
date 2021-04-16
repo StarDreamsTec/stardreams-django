@@ -36,7 +36,7 @@ def signup(request):
                     user = form.save()
                     user.refresh_from_db()
                     django_user = user.user
-                    auth_login(request, django_user, backend='django.contrib.auth.backends.ModelBackend')
+                    auth_login(request, django_user)
                     return redirect('/indicadores/')
                 return render(request, 'signup.html', {'form': form})
         elif request.method == 'CUSTOM':
@@ -56,6 +56,9 @@ def login(request):
         if form.is_valid():
             data=form.cleaned_data
             user=authenticate(request, username=data['username'], password=data['password'])
+            print(data['username'])
+            print(data['password'])
+            print(user)
             if user is not None:
                 auth_login(request, user)
                 return redirect('/indicadores/')
@@ -65,3 +68,8 @@ def login(request):
     else:
         form=Login()
     return render(request, 'login.html', {'form':form})
+
+
+def dashboard(request):
+	return render(request, 'registration/dashboard.html')
+

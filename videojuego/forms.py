@@ -14,7 +14,7 @@ class SignUpProfessor(UserCreationForm):
     gradoEscolar = forms.IntegerField(min_value=1, max_value=9, label="Grado Enseñanza")
 
     def __init__(self, *args, **kwargs):
-        super(UserCreationForm, self).__init__(*args, **kwargs)
+        super(SignUpProfessor, self).__init__(*args, **kwargs)
 
         for fieldname in ['username', 'password1', 'password2']:
             if fieldname in self.fields:
@@ -22,12 +22,13 @@ class SignUpProfessor(UserCreationForm):
 
     def save(self):
         data = self.cleaned_data
-        user = super(UserCreationForm, self).save()
+        user = super(SignUpProfessor, self).save(commit=False)
+        user.email = self.cleaned_data['email']
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.commit()
         professor = Profesor.objects.create(user=user, genero=data['genero'], edad=data['edad'],
                                             gradoEscolar=data['gradoEscolar'])
-        professor.refresh_from_db()
-        if professor is None:
-            user.delete()
         return professor
 
 
@@ -40,19 +41,19 @@ class SignUpStudent(UserCreationForm):
     tokenProfesor = forms.CharField(max_length=10, min_length=10, label="Token del profesor", required=False)
 
     def __init__(self, *args, **kwargs):
-        super(UserCreationForm, self).__init__(*args, **kwargs)
+        super(SignUpStudent, self).__init__(*args, **kwargs)
 
         for fieldname in ['username', 'password1', 'password2']:
             self.fields[fieldname].help_text = None
 
     def save(self):
         data = self.cleaned_data
-        user = super(UserCreationForm, self).save()
+        user = super(SignUpStudent, self).save(commit=False)
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.save()
         student = Jugador.objects.create(user=user, genero=data['genero'], edad=data['edad'],
                                            gradoEscolar=data['gradoEscolar'], profesor=data['tokenProfesor'])
-        student.refresh_from_db()
-        if student is None:
-            user.delete()
         return student
 
 
