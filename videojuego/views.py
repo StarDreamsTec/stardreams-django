@@ -112,7 +112,7 @@ def send_level_data_unity(request):
     tiempo = body_json['tiempo']
     username = body_json['username']
     jugador = Jugador.objects.filter(user__username = username).first()
-    resultado = Nivel.objects.Create(completado = completado, tiempo = tiempo, rama = rama, tiempoTerminacion =datetime.datetime.now(),jugador = jugador)
+    resultado = Nivel(completado = completado, tiempo = tiempo, rama = rama, tiempoTerminacion =datetime.datetime.now(),jugador = jugador)
     resultado.save()
     retorno = {"completado" : True}
     return JsonResponse(retorno)
