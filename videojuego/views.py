@@ -1,13 +1,16 @@
 from django.core.serializers import json
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .forms import *
 from django.contrib.auth import login, authenticate
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login
-import json
+from json import loads;
 from django.contrib import messages
+import psycopg2
+import datetime
+from .models import *
 
 # Create your views here.
 
@@ -72,4 +75,48 @@ def login(request):
 
 def dashboard(request):
 	return render(request, 'registration/dashboard.html')
+
+@csrf_exempt
+def login_unity(request):
+    #body_unicode = request.body.decode('utf-8')
+    #body_json = loads(body_unicode) #convertir de string a JSON
+    #user_request = body_json['usuario']
+    #resultados = Jugador.objects.filter(user__username = user_request)
+    #resultados = User.objects.filter(username = user_request)
+    #userID = resultados[0].user.index
+    #retorno = {"userID":userID}
+    if request.method == 'POST':
+        form = Login(request.POST)
+        if form.is_valid():
+            data=form.cleaned_data
+            user=authenticate(request, username=data['username'], password=data['password'])
+            print(data['username'])
+            print(data['password'])
+            print(user)
+            if user is not None:
+                resultado = User.objects.filter(username = data['username']).first()
+                FN = resultado.first_name
+                LN = resultado.last_name
+                ID = resultado.id
+                retorno = {"id": ID, "first_name": FN, "last_name":LN}
+                return JsonResponse(retorno)
+            else:
+                retorno = {}
+                return JsonResponse(retorno)
+@csrf_exempt
+def send_level_data_unity(request):
+    body_unicode = request.body.decode('utf-8')
+    body_json = loads(body_unicode) #convertir de string a JSON
+    rama = body_json['rama']
+    completado = body_json['completado']
+    tiempo = body_json['tiempo']
+    username = body_json['username']
+    jugador = Jugador.objects.filter(user__username = username).first()
+    resultado = Nivel.objects.Create(completado = completado, tiempo = tiempo, rama = rama, tiempoTerminacion =datetime.datetime.now(),jugador = jugador)
+    resultado.save()
+    retorno = {"completado" : True}
+    return JsonResponse(retorno)
+
+
+    
 
