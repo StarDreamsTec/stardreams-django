@@ -22,15 +22,12 @@ def index(request):
 
 @login_required(login_url='/login/')
 def indicadores(request):
-    print(request.user)
     return render(request, 'indicadores.html')
 
 
 def signup(request):
     if "type" in request.COOKIES:
         type_user = int(request.COOKIES['type'])
-        print(request.method)
-        print(type_user)
         if request.method == 'POST':
             if type_user != 0:
                 if type_user == 1:
@@ -61,9 +58,6 @@ def login(request):
         if form.is_valid():
             data = form.cleaned_data
             user = authenticate(request, username=data['username'], password=data['password'])
-            print(data['username'])
-            print(data['password'])
-            print(user)
             if user is not None:
                 auth_login(request, user)
                 return redirect('/indicadores/')
@@ -98,9 +92,6 @@ def login_unity(request):
         if form.is_valid():
             data = form.cleaned_data
             user = authenticate(request, username=data['username'], password=data['password'])
-            print(data['username'])
-            print(data['password'])
-            print(user)
             if user is not None:
                 resultado = User.objects.filter(username=data['username']).first()
                 FN = resultado.first_name
