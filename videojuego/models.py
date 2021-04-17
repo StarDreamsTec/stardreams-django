@@ -34,7 +34,7 @@ class Profesor(models.Model):
     token = models.CharField(max_length=10,
                            blank=True,
                             null=True,
-                           editable=False)
+                           editable=True)
 
     def save(self, *args, **kwargs):
         t = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
