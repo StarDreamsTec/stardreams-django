@@ -6,11 +6,13 @@ from django.contrib.auth import login, authenticate
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout as auth_logout
 from json import loads;
 from django.contrib import messages
 import psycopg2
 import datetime
 from .models import *
+
 
 # Create your views here.
 
@@ -57,8 +59,8 @@ def login(request):
     if request.method == 'POST':
         form = Login(request.POST)
         if form.is_valid():
-            data=form.cleaned_data
-            user=authenticate(request, username=data['username'], password=data['password'])
+            data = form.cleaned_data
+            user = authenticate(request, username=data['username'], password=data['password'])
             print(data['username'])
             print(data['password'])
             print(user)
@@ -69,54 +71,75 @@ def login(request):
                 messages.error(request, 'username or password not correct')
                 return redirect('/login/')
     else:
-        form=Login()
-    return render(request, 'login.html', {'form':form})
+        form = Login()
+    return render(request, 'login.html', {'form': form})
 
 
 def dashboard(request):
-	return render(request, 'registration/dashboard.html')
+    return render(request, 'registration/dashboard.html')
+
+
+def logout(request):
+    auth_logout(request)
+    return redirect('/')
+
 
 @csrf_exempt
 def login_unity(request):
-    #body_unicode = request.body.decode('utf-8')
-    #body_json = loads(body_unicode) #convertir de string a JSON
-    #user_request = body_json['usuario']
-    #resultados = Jugador.objects.filter(user__username = user_request)
-    #resultados = User.objects.filter(username = user_request)
-    #userID = resultados[0].user.index
-    #retorno = {"userID":userID}
+    # body_unicode = request.body.decode('utf-8')
+    # body_json = loads(body_unicode) #convertir de string a JSON
+    # user_request = body_json['usuario']
+    # resultados = Jugador.objects.filter(user__username = user_request)
+    # resultados = User.objects.filter(username = user_request)
+    # userID = resultados[0].user.index
+    # retorno = {"userID":userID}
     if request.method == 'POST':
         form = Login(request.POST)
         if form.is_valid():
-            data=form.cleaned_data
-            user=authenticate(request, username=data['username'], password=data['password'])
+            data = form.cleaned_data
+            user = authenticate(request, username=data['username'], password=data['password'])
             print(data['username'])
             print(data['password'])
             print(user)
             if user is not None:
-                resultado = User.objects.filter(username = data['username']).first()
+                resultado = User.objects.filter(username=data['username']).first()
                 FN = resultado.first_name
                 LN = resultado.last_name
                 ID = resultado.id
-                retorno = {"id": ID, "first_name": FN, "last_name":LN}
+                retorno = {"id": ID, "first_name": FN, "last_name": LN}
                 return JsonResponse(retorno)
             else:
                 retorno = {}
                 return JsonResponse(retorno)
+
+
 @csrf_exempt
 def send_level_data_unity(request):
     body_unicode = request.body.decode('utf-8')
-    body_json = loads(body_unicode) #convertir de string a JSON
+    body_json = loads(body_unicode)  # convertir de string a JSON
     rama = body_json['rama']
     completado = body_json['completado']
     tiempo = body_json['tiempo']
     username = body_json['username']
-    jugador = Jugador.objects.filter(user__username = username).first()
-    resultado = Nivel.objects.Create(completado = completado, tiempo = tiempo, rama = rama, tiempoTerminacion =datetime.datetime.now(),jugador = jugador)
+    jugador = Jugador.objects.filter(user__username=username).first()
+    resultado = Nivel.objects.Create(completado=completado, tiempo=tiempo, rama=rama,
+                                     tiempoTerminacion=datetime.datetime.now(), jugador=jugador)
     resultado.save()
-    retorno = {"completado" : True}
+    retorno = {"completado": True}
     return JsonResponse(retorno)
 
 
-    
-
+@csrf_exempt
+def close_unity(request):
+    if request.method == 'POST':
+        username = request.POST['userID']
+        jugador = Jugador.objects.filter(user__username=username).first()
+        duracion = int(float(request.POST['duracion']))
+        fecha = datetime.date.today()
+        sesion = Sesion.objects.create(duracion=duracion, fecha=fecha, jugador=jugador)
+        if sesion is not None:
+            flag = True
+        else:
+            flag = False
+        retorno = {'confirm': flag}
+        return JsonResponse(retorno)
