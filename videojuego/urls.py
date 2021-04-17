@@ -9,7 +9,7 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('login_unity', views.login_unity, name='login_unity'),
     path('send_level_data_unity', views.send_level_data_unity, name='send_level_data_unity'),
-
+    path('close_unity', views.close_unity, name='close_unity'),
 ]
 
 #urlpatterns += [

@@ -112,11 +112,25 @@ def send_level_data_unity(request):
     tiempo = body_json['tiempo']
     username = body_json['username']
     jugador = Jugador.objects.filter(user__username = username).first()
-    resultado = Nivel(completado = completado, tiempo = tiempo, rama = rama, tiempoTerminacion =datetime.datetime.now(),jugador = jugador)
+    resultado = Nivel(completado = completado, tiempo = tiempo, rama = rama, tiempoTerminacion = datetime.datetime.now(), jugador = jugador)
     resultado.save()
     retorno = {"completado" : True}
     return JsonResponse(retorno)
 
+@csrf_exempt
+def close_unity(request):
+    if request.method == 'POST':
+        userid = request.POST['userID']
+        jugador = Jugador.objects.filter(user__id=userid).first()
+        duracion = int(float(request.POST['duracion']))
+        fecha = datetime.date.today()
+        sesion = Sesion.objects.create(duracion=duracion, fecha=fecha, jugador=jugador)
+        if sesion is not None:
+            flag = True
+        else:
+            flag = False
+        retorno = {'confirm': flag}
+        return JsonResponse(retorno)
 
     
 
