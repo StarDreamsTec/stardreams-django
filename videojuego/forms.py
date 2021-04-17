@@ -26,7 +26,7 @@ class SignUpProfessor(UserCreationForm):
         user.email = self.cleaned_data['email']
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
-        user.commit()
+        user.save()
         professor = Profesor.objects.create(user=user, genero=data['genero'], edad=data['edad'],
                                             gradoEscolar=data['gradoEscolar'])
         return professor
