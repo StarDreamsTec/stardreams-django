@@ -12,9 +12,36 @@ from django.contrib import messages
 import psycopg2
 import datetime
 from .models import *
+from random import randrange
+
 
 
 # Create your views here.
+
+def graficas(request):
+    #data = [ ['Age', 'Weight'], [ 8,      12], [ 4,      5.5], [ 11,     14], [ 4, 5], [ 3, 3.5], [ 6.5,7] ]
+    data = [['Edad', 'Peso']]
+    resultados = Reto.objects.all()
+    for i in range(0,11):
+        x = randrange(100)
+        y = randrange(100)
+    datos_formato = dumps(data)    
+    return render(request,'graficas.html', {'losDatos':datos_formato})
+
+def barras(request):
+    data = [['Nombre', 'Minutos jugados']]
+    resultados = Reto.objects.all() #Select all from Reto;
+    for i in resultados:
+        x = i.nombre
+        y = i.minutos_jugados
+        data.append([x,y])
+
+    datos_formato = dumps(data)
+    titulo = 'Indicador STEM'
+    
+
+
+    return render(request,'barras.html', {'losDatos':datos_formato})
 
 def index(request):
     return render(request, 'index.html')
@@ -70,7 +97,7 @@ def login(request):
 
 
 def dashboard(request):
-    return render(request, 'registration/dashboard.html')
+    return render(request, 'dashboard.html')
 
 
 def logout(request):

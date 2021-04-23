@@ -61,7 +61,9 @@ class Jugador(models.Model):
 
 class Sesion(models.Model):
     duracion = models.PositiveIntegerField(blank=True, null=True)
-    fecha = models.DateField(blank=True, null=True)
+    inicio = models.DateTimeField(blank=True, null=True)
+    fin = models.DateTimeField(blank=True, null=True)
+    # fecha = models.DateField(blank=True, null=True)
     jugador = models.ForeignKey(Jugador, models.CASCADE, blank=False, null=False)
 
 
