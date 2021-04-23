@@ -159,18 +159,3 @@ def close_unity(request):
             flag = False
         retorno = {'confirm': flag}
         return JsonResponse(retorno)
-
-@csrf_exempt
-def close_unity(request):
-    if request.method == 'POST':
-        userid = request.POST['userID']
-        jugador = Jugador.objects.filter(user__id=userid).first()
-        duracion = int(float(request.POST['duracion']))
-        fecha = datetime.date.today()
-        sesion = Sesion.objects.create(duracion=duracion, fecha=fecha, jugador=jugador)
-        if sesion is not None:
-            flag = True
-        else:
-            flag = False
-        retorno = {'confirm': flag}
-        return JsonResponse(retorno)
