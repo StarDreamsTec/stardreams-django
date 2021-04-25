@@ -1,12 +1,9 @@
 from django.db import models
-from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 import random, string
 from django.contrib.auth.models import User
-import django.db.models.signals as signals
 
 # Create your models here.
-
 
 class Genero(models.IntegerChoices):
     MUJER = 1, _('Mujer')
@@ -43,6 +40,9 @@ class Profesor(models.Model):
         self.token = t
         super(Profesor, self).save(*args, **kwargs)
 
+    def __str__(self):
+        return self.user.get_full_name()
+
 
 class Jugador(models.Model):
     user = models.OneToOneField(
@@ -58,16 +58,26 @@ class Jugador(models.Model):
     ramaPreferida = models.IntegerField(choices=Rama.choices, blank=True, null=True)
     profesor = models.CharField(max_length=10, blank=True, null=True)
 
+    def __str__(self):
+        return self.user.get_full_name()
+
 
 class Sesion(models.Model):
-    duracion = models.PositiveIntegerField(blank=True, null=True)
-    fecha = models.DateField(blank=True, null=True)
+    # id
+    inicio = models.DateTimeField(blank=True, null=True)
+    fin = models.DateTimeField(blank=True, null=True)
     jugador = models.ForeignKey(Jugador, models.CASCADE, blank=False, null=False)
 
+    def __str__(self):
+        return str(self.jugador) + " " + str(self.inicio.date())
 
-class Nivel(models.Model):
+
+class Nivel(models.Model): # Intento Nivel
     completado = models.BooleanField()
-    tiempo = models.PositiveIntegerField(blank=True, null=True) # Tiempo que tomó completarlo
+    tiempo = models.FloatField(blank=True, null=True) # Tiempo que tomó completarlo
     rama = models.IntegerField(choices=Rama.choices)
     tiempoTerminacion = models.DateTimeField(null=True) # Cuál es el mas reciente
     jugador = models.ForeignKey(Jugador, models.CASCADE, blank=False, null=False)
+
+    def __str__(self):
+        return str(self.jugador) + " " + str(self.rama)
