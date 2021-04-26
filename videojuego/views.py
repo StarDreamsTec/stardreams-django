@@ -3,7 +3,7 @@ from django.db.models import Count, Avg, Min, Max, Sum, F
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from .forms import *
-from django.contrib.auth import  authenticate
+from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login
@@ -12,7 +12,7 @@ from json import loads, dumps
 from django.contrib import messages
 from .models import *
 from itertools import groupby
-
+from datetime import timedelta
 
 # Create your views here.
 
@@ -24,9 +24,9 @@ def levelData(rama):
     data = Nivel.objects.filter(completado=True, rama=rama)
     level = {
         'completo': data.order_by('jugador__id').distinct('jugador').count(),
-        'avg_time': data.aggregate(avg=Avg('tiempo'))['avg'],
-        'min': data.aggregate(mint=Min('tiempo'))['mint'],
-        'max': data.aggregate(maxt=Max('tiempo'))['maxt'],
+        'avg_time': round(data.aggregate(avg=Avg('tiempo'))['avg'], 2),
+        'min': round(data.aggregate(mint=Min('tiempo'))['mint'], 2),
+        'max': round(data.aggregate(maxt=Max('tiempo'))['maxt'], 2),
         'avg_success': round(data.count()/Nivel.objects.filter(rama=rama).count()*100, 2)
     }
     return level
@@ -119,7 +119,6 @@ def indicadores(request):
         'ing': ing,
         'mat': mat,
     }
-
     return render(request, 'indicadores.html', context)
 
 
@@ -137,7 +136,7 @@ def signup(request):
                     user.refresh_from_db()
                     django_user = user.user
                     auth_login(request, django_user)
-                    return redirect('/indicadores/')
+                    return redirect('/dashboard/')
                 return render(request, 'signup.html', {'form': form})
         elif request.method == 'CUSTOM':
             if type_user != 0:
@@ -184,7 +183,7 @@ def studentDashboard(request):
     ing_comp = Nivel.objects.filter(jugador=jugador, rama=Rama.ING, completado=True).exists()
     mat_comp = Nivel.objects.filter(jugador=jugador, rama=Rama.MAT, completado=True).exists()
     prof_query = Profesor.objects.filter(token=jugador.profesor)
-    prof = prof_query.first().user.get_full_name() if prof_query.exists() else "NULL"
+    prof = prof_query.first().user.get_full_name() if prof_query.exists() else "No asignado"
     sesion_time = Sesion.objects.filter(jugador=jugador).annotate(duracion=F('fin') - F('inicio'))
     min_full = round(sesion_time.aggregate(sum=Sum('duracion'))['sum'].total_seconds() / 60, 2)
     avg_sesion =  round(sesion_time.aggregate(avg=Avg('duracion'))['avg'].total_seconds() / 60, 2)
