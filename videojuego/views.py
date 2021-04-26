@@ -251,12 +251,26 @@ def login_unity(request):
                     sesion= Sesion.objects.create(inicio=datetime.datetime.now(), jugador=jugador)
                     SesionID = sesion.id
                     completado = jugador.is_complete()
+                    ciencia = Nivel.objects.filter(rama=Rama.CIENCIA, jugador=jugador, completado=True).exists()
+                    tec = Nivel.objects.filter(rama=Rama.TEC, jugador=jugador, completado=True).exists()
+                    ing = Nivel.objects.filter(rama=Rama.ING, jugador=jugador, completado=True).exists()
+                    mat = Nivel.objects.filter(rama=Rama.MAT, jugador=jugador, completado=True).exists()
                     profesor = False
                 else:
                     SesionID = 0
                     completado = False
                     profesor = True
-                retorno = {"id": ID, "first_name": FN, 'sesionID': SesionID, 'completed': completado, 'profesor': profesor}
+                    ciencia, tec, ing, mat = False, False, False, False
+                retorno = {
+                    "id": ID,
+                    "first_name": FN,
+                    'sesionID': SesionID,
+                    'ciencia': ciencia,
+                    'tec': tec,
+                    'ing': ing,
+                    'mat': mat,
+                    'profesor': profesor
+                }
                 return JsonResponse(retorno)
             else:
                 retorno = {}
