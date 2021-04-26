@@ -11,8 +11,8 @@ urlpatterns = [
     path('login_unity', views.login_unity, name='login_unity'),
     path('level_unity', views.level_unity, name='level_unity'),
     path('close_unity', views.close_unity, name='close_unity'),
-    path('prof', views.profDashboard, name='prof')
-    
+    path('prof', views.profDashboard, name='prof'),
+    path('ramaSteam', views.ramaSteam, name = 'ramaSteam'),
 ]
 
 #urlpatterns += [

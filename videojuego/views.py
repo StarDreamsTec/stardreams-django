@@ -288,3 +288,14 @@ def close_unity(request):
         sesion_obj.save()
         retorno = {'confirm': sesion is not None}
         return JsonResponse(retorno)
+
+@csrf_exempt
+def ramaSteam(request):
+    if request.method == 'POST':
+        userid = request.POST['userID']
+        ramaid = request.POST['ramaID']
+        jugador = Jugador.objects.get(user__id=userid)
+        jugador.ramaPreferida = int(ramaid)
+        jugador.save()
+        retorno = {'confirm' : True}
+        return JsonResponse(retorno)
