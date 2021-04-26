@@ -1,5 +1,4 @@
 from functools import reduce
-
 from django.db.models import Count, Avg, Min, Max, Sum, F
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
@@ -11,7 +10,6 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from json import loads, dumps
 from django.contrib import messages
-import datetime
 from .models import *
 from itertools import groupby
 
@@ -39,7 +37,6 @@ def profAge(mi, ma):
     return reduce(lambda acc, prof: acc + Jugador.objects.filter(profesor=prof.token).count(), data, 0)
 
 
-@login_required(login_url='/login/')
 def indicadores(request):
     # TOTAL PER MONTH
     totalMonth = Sesion.objects.filter(inicio__month=datetime.datetime.now().month).order_by('jugador_id').distinct(
@@ -57,15 +54,16 @@ def indicadores(request):
 
     # PREFERRED BRANCH
     rama_query = Jugador.objects.values('ramaPreferida').annotate(count=Count('ramaPreferida')).filter(count__gte=1). \
-        order_by('count').first()
-    rama = Rama.choices[rama_query['ramaPreferida'] - 1][1]
+        order_by('count').last()
+    rama = Rama.choices[rama_query['ramaPreferida']][1]
+
 
     # ALL TIME MINUTES
     sesion_time = Sesion.objects.annotate(duration=F('fin') - F('inicio'))
     total_minutes = round(sesion_time.aggregate(sum=Sum('duration'))['sum'].total_seconds() / 60, 2)
 
     # AVG SESION
-    avg_sesion = total_minutes / sesion_time.count()
+    avg_sesion = round(total_minutes / sesion_time.count(), 2)
 
     # MAXIMUM AND MINIMUM TIME
     comp_grouper = groupby(completo_query, lambda x: x.jugador)
@@ -160,7 +158,7 @@ def login(request):
             user = authenticate(request, username=data['username'], password=data['password'])
             if user is not None:
                 auth_login(request, user)
-                return redirect('/indicadores/')
+                return redirect('/dashboard/')
             else:
                 messages.error(request, 'username or password not correct')
                 return redirect('/login/')
@@ -169,8 +167,62 @@ def login(request):
     return render(request, 'login.html', {'form': form})
 
 
-def dashboard(request):
-    return render(request, 'registration/dashboard.html')
+@login_required(login_url='/login/')
+def dashboardSelect(request):
+    isPlayer = Jugador.objects.filter(user=request.user).exists()
+    if isPlayer:
+        return studentDashboard(request)
+    else:
+        return profDashboard(request)
+
+
+@login_required(login_url='/login/')
+def studentDashboard(request):
+    jugador = Jugador.objects.get(user=request.user)
+    ciencia_comp = Nivel.objects.filter(jugador=jugador, rama=Rama.CIENCIA, completado=True).exists()
+    tec_comp = Nivel.objects.filter(jugador=jugador, rama=Rama.TEC, completado=True).exists()
+    ing_comp = Nivel.objects.filter(jugador=jugador, rama=Rama.ING, completado=True).exists()
+    mat_comp = Nivel.objects.filter(jugador=jugador, rama=Rama.MAT, completado=True).exists()
+    prof_query = Profesor.objects.filter(token=jugador.profesor)
+    prof = prof_query.first().user.get_full_name() if prof_query.exists() else "NULL"
+    sesion_time = Sesion.objects.filter(jugador=jugador).annotate(duracion=F('fin') - F('inicio'))
+    min_full = round(sesion_time.aggregate(sum=Sum('duracion'))['sum'].total_seconds() / 60, 2)
+    avg_sesion =  round(sesion_time.aggregate(avg=Avg('duracion'))['avg'].total_seconds() / 60, 2)
+    sesions = Sesion.objects.filter(jugador=jugador).values('inicio', 'fin')
+    context = {
+        'personaje_astro': jugador.personaje == Personaje.ASTRO,
+        'coral': ciencia_comp,
+        'astro': tec_comp,
+        'castillo': ing_comp,
+        'tort': mat_comp,
+        'genero': jugador.get_genero_display(),
+        'edad': jugador.edad,
+        'grado': jugador.gradoEscolar,
+        'prof': prof,
+        'min_tot': min_full,
+        'avg_sesion':avg_sesion,
+        'sesions': sesions,
+        'intentos': {
+            'ciencia': Nivel.objects.filter(jugador=jugador, rama=Rama.CIENCIA).count(),
+            'tec': Nivel.objects.filter(jugador=jugador, rama=Rama.TEC).count(),
+            'ing': Nivel.objects.filter(jugador=jugador, rama=Rama.ING).count(),
+            'mat': Nivel.objects.filter(jugador=jugador, rama=Rama.MAT).count(),
+        }
+    }
+    return render(request, "dashboard.html", context=context)
+
+
+def profDashboard(request):
+    profesor = Profesor.objects.get(user=request.user)
+    estudiantes = Jugador.objects.filter(profesor=profesor.token)
+    context = {
+        'genero': profesor.get_genero_display(),
+        'edad': profesor.edad,
+        'grado': profesor.gradoEscolar,
+        'token': profesor.token,
+        'students': estudiantes
+    }
+    return render(request, "prof_dashboard.html", context)
 
 
 def logout(request):
@@ -188,9 +240,18 @@ def login_unity(request):
             if user is not None:
                 resultado = User.objects.filter(username=data['username']).first()
                 FN = resultado.first_name
-                LN = resultado.last_name
                 ID = resultado.id
-                retorno = {"id": ID, "first_name": FN, "last_name": LN}  # id_sesion
+                if Jugador.objects.filter(user=user).exists():
+                    jugador = Jugador.objects.get(user=user)
+                    sesion= Sesion.objects.create(inicio=datetime.datetime.now(), jugador=jugador)
+                    SesionID = sesion.id
+                    completado = jugador.is_complete()
+                    profesor = False
+                else:
+                    SesionID = 0
+                    completado = False
+                    profesor = True
+                retorno = {"id": ID, "first_name": FN, 'sesionID': SesionID, 'completed': completado, 'profesor': profesor}
                 return JsonResponse(retorno)
             else:
                 retorno = {}
@@ -198,12 +259,12 @@ def login_unity(request):
 
 
 @csrf_exempt
-def send_level_data_unity(request):
+def level_unity(request):
     body_unicode = request.body.decode('utf-8')
     body_json = loads(body_unicode)  # convertir de string a JSON
     rama = body_json['rama']
     completado = body_json['completado']
-    tiempo = body_json['tiempo']
+    tiempo = body_json['tiempo'] # duracion
     username = body_json['username']
     jugador = Jugador.objects.filter(user__username=username).first()
     resultado = Nivel(completado=completado, tiempo=tiempo, rama=rama, tiempoTerminacion=datetime.datetime.now(),
@@ -217,9 +278,13 @@ def send_level_data_unity(request):
 def close_unity(request):
     if request.method == 'POST':
         userid = request.POST['userID']
-        jugador = Jugador.objects.filter(user__id=userid).first()
-        duracion = int(float(request.POST['duracion']))
-        fecha = datetime.date.today()
-        sesion = Sesion.objects.create(duracion=duracion, fecha=fecha, jugador=jugador)  # Crea un objeto sesión
+        char = request.POST['characterID']
+        sesion = request.POST['sesionID']
+        jugador = Jugador.objects.get(user__id=userid)
+        jugador.personaje = char
+        jugador.save()
+        sesion_obj = Sesion.objects.get(id=sesion)
+        sesion_obj.fin = datetime.datetime.now()
+        sesion_obj.save()
         retorno = {'confirm': sesion is not None}
         return JsonResponse(retorno)

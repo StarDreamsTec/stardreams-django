@@ -51,12 +51,22 @@
     font-family: 'BlenderPro-Medium', sans-serif;
     font-size: 21px;
     color: #fff;
+    margin-bottom: 0;
 }
+
+.p-h4-blue {
+    font-family: 'BlenderPro-Medium', sans-serif;
+    font-size: 21px;
+    color: #0e61fb;
+    margin-bottom: 0;
+}
+
 
 .p-h6 {
     font-family: 'BlenderPro-Medium', sans-serif;
     font-size: 18px;
     color: #fff;
+    margin-bottom: 0;
 }
 
 #first-box a:hover {
@@ -148,6 +158,46 @@
     text-shadow: 1px 1px 2px black;
 }
 
+.signoff_button {
+    position: absolute;
+    top: 4%;
+    right: 2%;
+    transform: translateY(-50%);
+    /* transform: translate(-50%, -50%); */
+    border: none;
+    padding: 2px 25px;
+    color: #E6317B;
+    background-color: #fff;
+}
+
+/* #dashboard_bg {
+    background-image: url(../imgs/indicadoresBackground.jpg);
+    height: 100vh;
+} */
+
+#dashboard_html {
+    background-image: url(../imgs/indicadoresBackground.jpg);
+}
+
+.inner-div {
+    border: 2px solid #fff;
+    border-radius: 25px;
+    background-size: cover;
+    -webkit-box-shadow: 0px 0px 27px 0px rgba(0,0,0,0.05);
+    -moz-box-shadow: 0px 0px 27px 0px rgba(0,0,0,0.05);
+    box-shadow: 0px 0px 27px 0px rgba(0,0,0,0.05);
+}
+
+.inner-div-thingy {
+    height: 35px;
+    background-color:#fff;
+    border-radius: 20px 20px 0 0;
+}
+
+.artefacto-img {
+    height: 120px;
+}
+
 
 @media (max-width: 991.98px) {
 #my-header {
@@ -177,5 +227,6 @@
 .character-img {
     height: 500px;
 }
+
 
 }

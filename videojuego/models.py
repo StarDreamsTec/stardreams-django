@@ -1,7 +1,12 @@
+from itertools import groupby
+
 from django.db import models
+from django.db.models import Sum, F
 from django.utils.translation import gettext_lazy as _
 import random, string
 from django.contrib.auth.models import User
+import datetime
+
 
 # Create your models here.
 
@@ -12,10 +17,16 @@ class Genero(models.IntegerChoices):
 
 
 class Rama(models.IntegerChoices):
+    NONE = 0, _('Indefinido')
     CIENCIA = 1, _('Ciencia')
     TEC = 2, _('Tecnología')
     ING = 3, _('Ingeniería')
     MAT = 4, _('Matemáticas')
+
+
+class Personaje(models.IntegerChoices):
+    ASTRO = 1, _('Astronauta')
+    CIENTIFICA = 2, _('Científica')
 
 
 class Profesor(models.Model):
@@ -29,9 +40,9 @@ class Profesor(models.Model):
     edad = models.PositiveIntegerField()
     gradoEscolar = models.PositiveIntegerField()
     token = models.CharField(max_length=10,
-                           blank=True,
-                            null=True,
-                           editable=True)
+                             blank=True,
+                             null=True,
+                             editable=True)
 
     def save(self, *args, **kwargs):
         t = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
@@ -55,15 +66,30 @@ class Jugador(models.Model):
     edad = models.PositiveIntegerField()
     gradoEscolar = models.PositiveIntegerField()
     tiempoJuego = models.PositiveIntegerField(blank=True, null=True)
-    ramaPreferida = models.IntegerField(choices=Rama.choices, blank=True, null=True)
+    ramaPreferida = models.IntegerField(choices=Rama.choices, blank=True, null=True, default=Rama.NONE)
     profesor = models.CharField(max_length=10, blank=True, null=True)
+    personaje = models.IntegerField(choices=Personaje.choices, default=Personaje.ASTRO)
 
     def __str__(self):
         return self.user.get_full_name()
 
+    def is_complete(self):
+        ciencia = Nivel.objects.filter(jugador=self, completado=True, rama=Rama.CIENCIA).exists()
+        tec = Nivel.objects.filter(jugador=self, completado=True, rama=Rama.TEC).exists()
+        ing = Nivel.objects.filter(jugador=self, completado=True, rama=Rama.ING).exists()
+        mat = Nivel.objects.filter(jugador=self, completado=True, rama=Rama.MAT).exists()
+        return ciencia and tec and ing and mat
+
+    def total_time(self):
+        sesion_time = Sesion.objects.filter(jugador=self).annotate(duration=F('fin') - F('inicio'))
+        return sesion_time.aggregate(sum=Sum('duration'))['sum']
+
+    def sesion_num(self):
+        count = Sesion.objects.filter(jugador=self).count()
+        return count
+
 
 class Sesion(models.Model):
-    # id
     inicio = models.DateTimeField(blank=True, null=True)
     fin = models.DateTimeField(blank=True, null=True)
     jugador = models.ForeignKey(Jugador, models.CASCADE, blank=False, null=False)
@@ -72,11 +98,11 @@ class Sesion(models.Model):
         return str(self.jugador) + " " + str(self.inicio.date())
 
 
-class Nivel(models.Model): # Intento Nivel
+class Nivel(models.Model):  # Intento Nivel
     completado = models.BooleanField()
-    tiempo = models.FloatField(blank=True, null=True) # Tiempo que tomó completarlo
+    tiempo = models.FloatField(blank=True, null=True)  # Tiempo que tomó completarlo
     rama = models.IntegerField(choices=Rama.choices)
-    tiempoTerminacion = models.DateTimeField(null=True) # Cuál es el mas reciente
+    tiempoTerminacion = models.DateTimeField(null=True)  # Cuál es el mas reciente
     jugador = models.ForeignKey(Jugador, models.CASCADE, blank=False, null=False)
 
     def __str__(self):
