@@ -205,6 +205,10 @@
     height: 120px;
 }
 
+/* Nosotros */
+.nosotros-img {
+    width: 150px;
+}
 
 @media (max-width: 991.98px) {
 #my-header {
