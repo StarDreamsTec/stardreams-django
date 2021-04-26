@@ -70,6 +70,7 @@ def indicadores(request):
     comp_list_groups = [list(group) for jugador, group in comp_grouper]
     comp_list_valid = filter(lambda x: len(x) == 4, comp_list_groups)
     finish_times = {group[0].jugador.user.get_full_name(): reduce(lambda acc, x: acc + x.tiempo, group, 0) for group in comp_list_valid}
+    print(finish_times)
     min_time = min(finish_times, key=finish_times.get)
     max_time = max(finish_times, key=finish_times.get)
 
@@ -184,9 +185,14 @@ def studentDashboard(request):
     mat_comp = Nivel.objects.filter(jugador=jugador, rama=Rama.MAT, completado=True).exists()
     prof_query = Profesor.objects.filter(token=jugador.profesor)
     prof = prof_query.first().user.get_full_name() if prof_query.exists() else "No asignado"
-    sesion_time = Sesion.objects.filter(jugador=jugador).annotate(duracion=F('fin') - F('inicio'))
-    min_full = round(sesion_time.aggregate(sum=Sum('duracion'))['sum'].total_seconds() / 60, 2)
-    avg_sesion =  round(sesion_time.aggregate(avg=Avg('duracion'))['avg'].total_seconds() / 60, 2)
+    sesion_query = Sesion.objects.filter(jugador=jugador)
+    if sesion_query.exists():
+        sesion_time = Sesion.objects.filter(jugador=jugador).annotate(duracion=F('fin') - F('inicio'))
+        min_full = round(sesion_time.aggregate(sum=Sum('duracion'))['sum'].total_seconds() / 60, 2)
+        avg_sesion =  round(sesion_time.aggregate(avg=Avg('duracion'))['avg'].total_seconds() / 60, 2)
+    else:
+        min_full = 0
+        avg_sesion = 0
     sesions = Sesion.objects.filter(jugador=jugador).values('inicio', 'fin')
     context = {
         'personaje_astro': jugador.personaje == Personaje.ASTRO,
