@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
 
-from .models import Profesor, Jugador
+from .models import Profesor, Jugador, Genero, GradoEscolar
 
 
 class SignUpProfessor(UserCreationForm):
@@ -11,7 +11,7 @@ class SignUpProfessor(UserCreationForm):
     email = forms.EmailField(max_length=254)
     genero = forms.ChoiceField(choices=[(1, 'Mujer'), (2, 'Hombre'), (3, 'Otro')], label="Genero")
     edad = forms.IntegerField(min_value=0, label="Edad")
-    gradoEscolar = forms.IntegerField(min_value=1, max_value=9, label="Grado Enseñanza")
+    gradoEscolar = forms.ChoiceField(choices=GradoEscolar.choices, label="Grado Escolar")
 
     def __init__(self, *args, **kwargs):
         super(SignUpProfessor, self).__init__(*args, **kwargs)
@@ -35,9 +35,9 @@ class SignUpProfessor(UserCreationForm):
 class SignUpStudent(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=False)
     last_name = forms.CharField(max_length=30, required=False)
-    genero = forms.ChoiceField(choices=[(1, 'Mujer'), (2, 'Hombre'), (3, 'Otro')], label="Genero")
+    genero = forms.ChoiceField(choices=Genero.choices, label="Genero")
     edad = forms.IntegerField(min_value=0, label="Edad")
-    gradoEscolar = forms.IntegerField(min_value=1, max_value=9, label="Grado Escolar")
+    gradoEscolar = forms.ChoiceField(choices=GradoEscolar.choices, label="Grado Escolar")
     tokenProfesor = forms.CharField(max_length=10, min_length=10, label="Token del profesor", required=False)
 
     def __init__(self, *args, **kwargs):

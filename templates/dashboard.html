@@ -1,196 +1,185 @@
-<!DOCTYPE html>
-<html lang="es" >
-<head>
-    <!-- Meta tags -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>StarDreams | Login</title>
-    <meta name="description" content="¡Viaja por mundos fantásticos en tus sueños, mientras aprendes sobre ciencias y tecnologías!">
-    <meta name="autor" content="Diego, Iñigo, Marcia y Agustín">
+{% extends 'base.html' %}
+{% load static %}
 
-    <!-- Stylesheets -->
-    {% load static %}
+{% block style %}
     <link rel="stylesheet" href="{% static 'assets/styles/style.css' %}">
     <link rel="stylesheet" href="{% static 'assets/styles/nav.css' %}">
     <!-- Bootstrap. Ayuda para el CSS. -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <!-- Tipografía de Google Fonts. -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet">
-        <!-- Página para íconos.  -->
-    <script src="https://kit.fontawesome.com/01b9abcee1.js" crossorigin="anonymous"></script>  
-</head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+{% endblock %}
 
-<body id="dashboard_html">
-    <main id="dashboard_bg">
+{% block bg %}
+    id="dashboard_html"
+{% endblock %}
 
-        <div class="top-square">
-            <a href="{% url 'index' %}"> 
-                <div class="pt-3">
-                    <img src="{% static 'assets/imgs/Logo2.png' %}" alt="Logo" style="width: 300px;">
+{% block content %}
+    <div class="container-fluid">
+        <br>
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <div class="inner-div mt-3" style="height: 300px; background-image: url({% static 'assets/imgs/indicadoresBackground.jpg' %});">
+                    <p class="text-center text-white p-h3 pt-2">Tu personaje</p>
+                    <div class="text-center">
+                        {% if personaje_astro %}
+                            <img src="{% static 'assets/imgs/astro-boy.PNG' %}" alt="">
+                        {% else %}
+                            <img src="{% static 'assets/imgs/science-girl.PNG' %}" alt="">
+                        {% endif %}
+                    </div>
                 </div>
-            </a>
-            <button class="signoff_button">
-                Cerrar sesión
-            </button>
-            <p class="ml-3 mt-5 text-white welcome-text">Bienvenido Iñigo</p>
-        </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 col-md-4" >
-                    <div class="inner-div mt-3">
-                        <p class="text-center text-white p-h4 pt-2">Tu personaje</p>
-                        <div class="text-center">
-                            <img src="{% static 'assets/imgs/scientist.PNG' %}" alt="">
+            </div>
+
+            <div class="col-12 col-md-8">
+                <div class="mt-3 pt-2" style="height: 300px;">
+                    <p class="p-h3 text-white text-center">Artefactos obtenidos</p>
+                    <br>
+                    <div class="row">
+                        <div class="text-center col-lg-3 col-md-6 col-12">
+                            {% if coral %}
+                                <img class="artefacto-img" src="{% static 'assets/imgs/coral.png' %}" alt="">
+                            {% else %}
+                                <img class="artefacto-img" src="{% static 'assets/imgs/coral_black.png' %}" alt="">
+                            {% endif %}
+                            <br><br>
+                            <p class="p-h6">Coral</p>
+                        </div>
+                        <div class="text-center col-lg-3 col-md-6 col-12">
+                            {% if astro %}
+                                <img class="artefacto-img" src="{% static 'assets/imgs/astronauta.png' %}" alt="">
+                            {% else %}
+                                <img class="artefacto-img" src="{% static 'assets/imgs/astronauta_black.png' %}" alt="">
+                            {% endif %}
+                            <br><br>
+                            <p class="p-h6">Astronauta</p>
+                        </div>
+                        <div class="text-center col-lg-3 col-md-6 col-12">
+                            {% if castillo %}
+                                <img class="artefacto-img" src="{% static 'assets/imgs/castillo.png' %}" alt="">
+                            {% else %}
+                                <img class="artefacto-img" src="{% static 'assets/imgs/castillo_black.png' %}" alt="">
+                            {% endif %}
+                            <br><br>
+                            <p class="p-h6">Castillo</p>
+                        </div>
+                        <div class="text-center col-lg-3 col-md-6 col-12">
+                             {% if tort %}
+                                <img class="artefacto-img" src="{% static 'assets/imgs/tortuga.png' %}" alt="">
+                            {% else %}
+                                <img class="artefacto-img" src="{% static 'assets/imgs/tortuga_black.png' %}" alt="">
+                            {% endif %}
+                            <br><br>
+                            <p class="p-h6">Tortuga</p>
                         </div>
                     </div>
-                    <div class="pt-2">
+                </div>
+            </div>
+
+            <div class="row col-12 pt-5" >
+                <div class="col pt-3">
+                    <div class=" col-12">
+                        <p class="p-h3 col-12">Mis datos</p>
+                        <br>
                         <!-- DESDE BASE DE DATOS -->
-                        <p class="p-h6">Minutos jugados totales: 138 min.</p>
-                        <p class="p-h6">Duración promedio de sesión: 57 min.</p>
+                        <div class="col-12">
+                            <p class="p-h6">{{ user.get_full_name }}</p>
+                            <p class="p-h6"> @{{ user.username }}</p>
+                            <p class="p-h6"> {{ genero }}</p>
+                            <p class="p-h6"> {{ edad }} años</p>
+                            <br>
+                            <p class="p-h6">Grado escolar: {{ grado }}</p>
+                            <p class="p-h6">Profesor: {{ prof }}</p>
+                            <p class="p-h6">Minutos jugados totales: {{ min_tot }} min.</p>
+                            <p class="p-h6">Duración promedio de sesión: {{ avg_sesion }} min.</p>
+                            <br>
+                        </div>
                     </div>
                 </div>
-                <div id="" class="col-12 col-md-8" >
-                    <div class="row">
-                        <div class="col-12 col-md-3">
-                            <p class="p-h3" style="color: #E6317B;;">Mis datos</p>
-                            <!-- DESDE BASE DE DATOS -->
-                            <div>
-                                <p class="p-h6">Iñigo Zepeda</p>
-                                <p class="p-h6">@inigoz</p>
-                                <p class="p-h6">Hombre</p>
-                                <p class="p-h6">20 años</p>
-                                <p class="p-h6">Grado escolar: 1</p>
-                                <p class="p-h6">Token del profesor: 1</p>
 
-                            </div>
-                            
+                <div class="col">
+                    <div class="inner-div mt-3">
+                        <div class="inner-div-thingy">
+                            <p class="text-center pt-0 p-h4-blue">Mis sesiones</p>
                         </div>
-                        <div class="col-12 col-md-9">
-                            <p class="p-h3" style="color: #E6317B;;">Artefactos obtenidos</p>
+                        <div class="row pt-2">
+                            <div class="col-6 text-center">
+                                <p class="p-h6">Hora de inicio</p>
+                            </div>
+                            <div class="col-6 text-center">
+                                <p class="p-h6">Hora de fin</p>
+                            </div>
+                        </div>
+                        <br>
+                        <!-- Cada row es un nuevo dato -->
+                        <div>
+                            {% for sesion in sesions %}
+                                <div class="row">
+                                <div class="col-6 text-center">
+                                    <p class="p-h6">{{ sesion.inicio }}</p>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <p class="p-h6">{{ sesion.fin }}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <br>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="inner-div mt-3">
+                        <div class="inner-div-thingy">
+                            <p class="text-center pt-0 p-h4-blue">Intentos por nivel</p>
+                        </div>
+                        <div class="row pt-2">
+                            <div class="col-6 text-center">
+                                <p class="p-h6">Nivel</p>
+                            </div>
+                            <div class="col-6 text-center">
+                                <p class="p-h6">Intentos</p>
+                            </div>
+                        </div>
+                        <br>
+                        <!-- Cada row es un nuevo dato -->
+                        <div>
                             <div class="row">
-                                <div class="text-center col-lg-3 col-md-6 col-12">
-                                    <img class="artefacto-img" src="{% static 'assets/imgs/coral.png' %}" alt="">
-                                    <p class="p-h6">Coral</p>
+                                <div class="col-6 text-center">
+                                    <p class="p-h6">Ciencia </p>
                                 </div>
-                                <div class="text-center col-lg-3 col-md-6 col-12">
-                                    <img class="artefacto-img" src="{% static 'assets/imgs/astronauta.png' %}" alt="">
-                                    <p class="p-h6">Coral</p>
-                                </div>
-                                <div class="text-center col-lg-3 col-md-6 col-12">
-                                    <img class="artefacto-img" src="{% static 'assets/imgs/castillo.png' %}" alt="">
-                                    <p class="p-h6">Coral</p>
-                                </div>
-                                <div class="text-center col-lg-3 col-md-6 col-12">
-                                    <img class="artefacto-img" src="{% static 'assets/imgs/tortuga.png' %}" alt="">
-                                    <p class="p-h6">Coral</p>
+                                <div class="col-6 text-center">
+                                    <p class="p-h6">{{ intentos.ciencia }}</p>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-6 text-center">
+                                    <p class="p-h6"> Tecnología </p>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <p class="p-h6"> {{ intentos.tec }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 text-center">
+                                    <p class="p-h6"> Ingeniería </p>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <p class="p-h6"> {{ intentos.ing }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 text-center">
+                                    <p class="p-h6">Matemáticas</p>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <p class="p-h6"> {{ intentos.mat }}</p>
+                                </div>
+                            </div>
+                            <br>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="inner-div mt-3">
-                                <div class="inner-div-thingy">
-                                    <p class="text-center pt-0 p-h4-blue">Mis sesiones</p>
-                                </div>
-                                
-                                <div class="row pt-2">
-                                    <div class="col-6 text-center">
-                                        <p class="p-h6">Hora de inicio</p> 
-                                    </div>
-                                    <div class="col-6 text-center">
-                                        <p class="p-h6">Hora de fin</p>     
-                                    </div>
-                                </div>
-                                <!-- Cada row es un nuevo dato -->
-                                <div>
-                                    <div class="row">
-                                        <div class="col-6 text-center">
-                                            <p class="p-h6">5:25 pm</p> 
-                                        </div>
-                                        <div class="col-6 text-center">
-                                            <p class="p-h6">5:37 pm</p>     
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6 text-center">
-                                            <p class="p-h6">7:25 pm</p> 
-                                        </div>
-                                        <div class="col-6 text-center">
-                                            <p class="p-h6">7:37 pm</p>     
-                                        </div>
-                                    </div> 
-
-                                </div>
-                                
-                            </div>
-
-                        </div>
-                        <div class="col-6">
-                            <div class="inner-div mt-3">
-                                <div class="inner-div-thingy">
-                                    <p class="text-center pt-0 p-h4-blue">Intentos por nivel</p>
-                                </div>
-                                
-                                <div class="row pt-2">
-                                    <div class="col-6 text-center">
-                                        <p class="p-h6">Nivel</p> 
-                                    </div>
-                                    <div class="col-6 text-center">
-                                        <p class="p-h6">Intentos</p>     
-                                    </div>
-                                </div>
-                                <!-- Cada row es un nuevo dato -->
-                                <div>
-                                    <div class="row">
-                                        <div class="col-6 text-center">
-                                            <p class="p-h6">1</p> 
-                                        </div>
-                                        <div class="col-6 text-center">
-                                            <p class="p-h6">3</p>     
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6 text-center">
-                                            <p class="p-h6">2</p> 
-                                        </div>
-                                        <div class="col-6 text-center">
-                                            <p class="p-h6">6</p>     
-                                        </div>
-                                    </div> 
-                                    <div class="row">
-                                        <div class="col-6 text-center">
-                                            <p class="p-h6">3</p> 
-                                        </div>
-                                        <div class="col-6 text-center">
-                                            <p class="p-h6">3</p>     
-                                        </div>
-                                    </div> 
-                                    <div class="row">
-                                        <div class="col-6 text-center">
-                                            <p class="p-h6">4</p> 
-                                        </div>
-                                        <div class="col-6 text-center">
-                                            <p class="p-h6">5</p>     
-                                        </div>
-                                    </div> 
-
-                                </div>
-                                
-                            </div>
-
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
-
-
-
-    </main>
-    
-</body>
-</html>
+    </div>
+{% endblock %}

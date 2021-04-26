@@ -188,9 +188,7 @@
 
 .inner-div {
     border: 2px solid #fff;
-    height: 300px;
     border-radius: 25px;
-    background-image: url(../imgs/indicadoresBackground.jpg);
     background-size: cover;
     -webkit-box-shadow: 0px 0px 27px 0px rgba(0,0,0,0.05);
     -moz-box-shadow: 0px 0px 27px 0px rgba(0,0,0,0.05);

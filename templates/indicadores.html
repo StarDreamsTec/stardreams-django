@@ -15,23 +15,45 @@
         <div>
             <h3> Total de jugadores del mes</h3>
             <img src="{% static 'assets/imgs/mesNinos.png' %}" class="imagenes">
-            <span class="center spans"> 2869 </span>
+            <span class="center spans"> {{ month }} </span>
         </div>
 
         <div>
             <h3> Total de jugadores</h3>
             <img src="{% static 'assets/imgs/totalNinos.png' %}" class="imagenes">
-            <span class="center spans"> 51433 </span>
+            <span class="center spans"> {{ total }} </span>
         </div>
 
         <div>
             <h3> Terminaron el videojuego </h3>
-            <span class="center spans">  35269</span>
+            <span class="center spans">  {{ completo }} </span>
         </div>
 
         <div>
             <h3> Rama STEM Preferida</h3>
-            <span class="center spans"> Tecnología </span>
+            <span class="center spans"> {{ rama }} </span>
+        </div>
+
+         <div>
+            <h3> Minutos totales jugados </h3>
+            <span class="center spans">  {{ minutes }} min </span>
+        </div>
+
+         <div>
+            <h3> Duración promedio de sesión </h3>
+            <span class="center spans">  {{ avg_sesion }} min</span>
+        </div>
+
+        <div>
+            <h3> Record máximo de terminación </h3>
+            <span class="center spans"> {{ max.name }} </span>
+            <span class="center spans"> {{ max.time }} min </span>
+        </div>
+
+        <div>
+            <h3> Record mínimo de terminación </h3>
+            <span class="center spans"> {{ min.name }} </span>
+            <span class="center spans"> {{ min.time }} min</span>
         </div>
 
         <div>
@@ -45,7 +67,7 @@
         </div>
 
         <div>
-            <h3> Impacto de la edad del profesor </h3>
+            <h3> Jugadores por edad del profesor </h3>
             <div id="ageSuccess"> </div>
         </div>
 
@@ -56,36 +78,102 @@
 
         <div>
             <h3> Nivel Ciencias</h3>
-            <span class="spans"> Jugadores que completaron: 23678 </span>
-            <span class="spans"> Tiempo Medio: 2hr </span>
-            <span class="spans"> Orden de juego promedio: 3 </span>
+            <span class="spans"> Jugadores que completaron: {{ ciencia.completo }} </span>
+            <span class="spans"> Tiempo Medio de Terminación: {{ ciencia.avg_time }} hr </span>
+            <span class="spans"> Tiempo Mínimo de Terminación: {{ ciencia.min }} hr </span>
+            <span class="spans"> Tiempo Máximo de Terminación: {{ ciencia.max }} hr </span>
+            <span class="spans"> Promedio de éxito: {{ ciencia.avg_success }} % </span>
         </div>
 
         <div>
             <h3> Nivel Tecnología</h3>
-            <span class="spans"> Jugadores que completaron: 35678 </span>
-            <span class="spans"> Tiempo Medio: 3hr </span>
-            <span class="spans"> Orden de juego promedio: 1 </span>
+            <span class="spans"> Jugadores que completaron: {{ tec.completo }} </span>
+            <span class="spans"> Tiempo Medio de Terminación: {{ tec.avg_time }} hr </span>
+            <span class="spans"> Tiempo Mínimo de Terminación: {{ tec.min }} hr </span>
+            <span class="spans"> Tiempo Máximo de Terminación: {{ tec.max }} hr </span>
+            <span class="spans"> Promedio de éxito: {{ tec.avg_success }} % </span>
         </div>
 
         <div>
             <h3> Nivel Ingeniería </h3>
-            <span class="spans"> Jugadores que completaron: 20694 </span>
-            <span class="spans"> Tiempo Medio: 1.5hr </span>
-            <span class="spans"> Orden de juego promedio: 2 </span>
+            <span class="spans"> Jugadores que completaron: {{ ing.completo }} </span>
+            <span class="spans"> Tiempo Medio de Terminación: {{ ing.avg_time }} hr </span>
+            <span class="spans"> Tiempo Mínimo de Terminación: {{ ing.min }} hr </span>
+            <span class="spans"> Tiempo Máximo de Terminación: {{ ing.max }} hr </span>
+            <span class="spans"> Promedio de éxito: {{ ing.avg_success }} % </span>
         </div>
 
         <div>
             <h3> Nivel Matemáticas</h3>
-            <span class="spans"> Jugadores que completaron: 15371 </span>
-            <span class="spans"> Tiempo Medio: 3hr </span>
-            <span class="spans"> Orden de juego promedio: 4 </span>
+            <span class="spans"> Jugadores que completaron: {{ mat.completo }} </span>
+            <span class="spans"> Tiempo Medio de Terminación: {{ mat.avg_time }} hr </span>
+            <span class="spans"> Tiempo Mínimo de Terminación: {{ mat.min }} hr </span>
+            <span class="spans"> Tiempo Máximo de Terminación: {{ mat.max }} hr </span>
+            <span class="spans"> Promedio de éxito: {{ mat.avg_success }} % </span>
         </div>
     </main>
 {% endblock %}
 
 {% block extra_scripts %}
-    <!--    <script src="https://d3js.org/d3.v5.js"></script>-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.load('current', {'packages':['treemap']});
+        google.charts.setOnLoadCallback(createCharts);
+
+        let gender = {{ genero }};
+        let prof = {{ prof }};
+        let area = {{ area }};
+
+        function createCharts(){
+            distribucionesChart()
+            teacherChart()
+            stemChart()
+            ageChart()
+        }
+
+        function ageChart() {
+            var age = google.visualization.arrayToDataTable({{ age | safe }});
+            var options = {
+                bar: {groupWidth: "95%"},
+                legend: "none",
+                backgroundColor: 'transparent',
+                hAxis: {
+                    textStyle: {
+                        color: "#FFFFFF"
+                    },
+                    title: "Edad",
+                    titleTextStyle:{
+                        color: '#FFF',
+                        fontSize: 20
+                    },
+                    gridlines: {
+                        color: "#FFFFFF"
+                    },
+                    baselineColor: '#FFFFFF'
+                },
+                vAxis: {
+                    title:"Cantidad",
+                    titleStyle:{
+                        color: "#FFFFFF"
+                    },
+                    titleTextStyle:{
+                        color: '#FFF',
+                        fontSize: 20
+                    },
+                    textStyle: {
+                        color: "#FFFFFF"
+                    },
+                    gridlines: {
+                        color: "#FFFFFF"
+                    },
+                    baselineColor: '#FFFFFF'
+                },
+            };
+            let chart = new google.visualization.ColumnChart(document.getElementById("playersAge"));
+            chart.draw(age, options);
+        }
+
+    </script>
     <script src="{% static 'assets/scripts/graphs.js' %}"></script>
 {% endblock %}

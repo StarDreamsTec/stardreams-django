@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'assets/styles/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/styles/nav.css' %}">
+    <!-- Bootstrap. Ayuda para el CSS. -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+{% endblock %}
+
+{% block bg %}
+    id="dashboard_html"
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-3 pt-3">
+            <br>
+            <div class=" col-12">
+                <p class="p-h3 col-12">Mis datos</p>
+                <br>
+                <!-- DESDE BASE DE DATOS -->
+                <div class="col-12">
+                    <p class="p-h6">{{ user.get_full_name }}</p>
+                    <p class="p-h6"> @{{ user.username }}</p>
+                    <p class="p-h6"> {{ genero }}</p>
+                    <p class="p-h6"> {{ edad }} años</p>
+                    <br>
+                    <p class="p-h6">Grado escolar: {{ grado }}</p>
+                    <p class="p-h6">Token: {{ token }}</p>
+                    <p class="p-h6">Número de alumnos: </p>
+                    <br>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <br>
+            <div class="inner-div mt-3">
+                <div class="inner-div-thingy">
+                    <p class="text-center pt-0 p-h4-blue">Mis estudiantes</p>
+                </div>
+                <div class="row pt-2">
+                    <div class="col-3 text-center">
+                        <p class="p-h6"> Nombre </p>
+                    </div>
+                    <div class="col-2 text-center">
+                        <p class="p-h6"> Estátus </p>
+                    </div>
+                    <div class="col-2 text-center">
+                        <p class="p-h6"> Tiempo total </p>
+                    </div>
+                    <div class="col-2 text-center">
+                        <p class="p-h6"> Rama preferida </p>
+                    </div>
+                    <div class="col-2 text-center">
+                        <p class="p-h6"> Número de sesiones </p>
+                    </div>
+                </div>
+                <br>
+                <!-- Cada row es un nuevo dato -->
+                <div>
+                    {% for student in students %}
+                        <div class="row">
+                            <div class="col-3 text-center">
+                                <p class="p-h6">{{ student.user.get_full_name }}</p>
+                            </div>
+                            <div class="col-2 text-center">
+                                <p class="p-h6">{{ student.is_complete }}</p>
+                            </div>
+                            <div class="col-2 text-center">
+                                <p class="p-h6">{{ student.total_time }}</p>
+                            </div>
+                            <div class="col-2 text-center">
+                                <p class="p-h6">{{ student.get_ramaPreferida_display }}</p>
+                            </div>
+                            <div class="col-2 text-center">
+                                <p class="p-h6">{{ student.sesion_num }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
