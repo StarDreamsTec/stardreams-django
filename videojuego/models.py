@@ -29,6 +29,18 @@ class Personaje(models.IntegerChoices):
     CIENTIFICA = 2, _('Científica')
 
 
+class GradoEscolar(models.IntegerChoices):
+    PRIM1 = 1, _('Primaria 1º')
+    PRIM2 = 2, _('Primaria 2º')
+    PRIM3 = 3, _('Primaria 3º')
+    PRIM4 = 4, _('Primaria 4º')
+    PRIM5 = 5, _('Primaria 5º')
+    PRIM6 = 6, _('Primaria 6º')
+    SEC1 = 7, _('Secundaria 1º')
+    SEC2 = 8, _('Secundaria 2º')
+    SEC3 = 9, _('Secundaria 3º')
+
+
 class Profesor(models.Model):
     user = models.OneToOneField(
         User,
@@ -38,7 +50,7 @@ class Profesor(models.Model):
     )
     genero = models.IntegerField(choices=Genero.choices, default=Genero.OTRO, null=True)
     edad = models.PositiveIntegerField()
-    gradoEscolar = models.PositiveIntegerField()
+    gradoEscolar = models.PositiveIntegerField(choices=GradoEscolar.choices, null=False)
     token = models.CharField(max_length=10,
                              blank=True,
                              null=True,
@@ -64,7 +76,7 @@ class Jugador(models.Model):
     )
     genero = models.IntegerField(choices=Genero.choices, default=Genero.OTRO)
     edad = models.PositiveIntegerField()
-    gradoEscolar = models.PositiveIntegerField()
+    gradoEscolar = models.IntegerField(choices=GradoEscolar.choices, null=False)
     tiempoJuego = models.PositiveIntegerField(blank=True, null=True)
     ramaPreferida = models.IntegerField(choices=Rama.choices, blank=True, null=True, default=Rama.NONE)
     profesor = models.CharField(max_length=10, blank=True, null=True)
