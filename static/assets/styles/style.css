@@ -106,8 +106,20 @@
     width: 80%;
     margin-left: auto;
 }
+
+.sec-text-inside-2 {
+    text-align: center;
+    width: 80%;
+    margin-right: auto;
+}
+
 .character-img {
     height: 800px;
+}
+
+.character-img-2 {
+    height: 600px;
+    /* text-align: right; */
 }
 
 /* Pestaña movimiento stem */
@@ -213,7 +225,7 @@
 @media (max-width: 991.98px) {
 #my-header {
     background-image: url(../imgs/MainBG_small.jpg);
-    
+
 }
 
 .nav-item {
@@ -237,6 +249,18 @@
 }
 .character-img {
     height: 500px;
+}
+
+.sec-text-inside-2 {
+    text-align: center;
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.character-img-2 {
+    height: 400px;
+    /* text-align: right; */
 }
 
 
