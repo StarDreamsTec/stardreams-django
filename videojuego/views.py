@@ -70,7 +70,6 @@ def indicadores(request):
     comp_list_groups = [list(group) for jugador, group in comp_grouper]
     comp_list_valid = filter(lambda x: len(x) == 4, comp_list_groups)
     finish_times = {group[0].jugador.user.get_full_name(): reduce(lambda acc, x: acc + x.tiempo, group, 0) for group in comp_list_valid}
-    print(finish_times)
     min_time = min(finish_times, key=finish_times.get)
     max_time = max(finish_times, key=finish_times.get)
 
@@ -202,7 +201,7 @@ def studentDashboard(request):
         'tort': mat_comp,
         'genero': jugador.get_genero_display(),
         'edad': jugador.edad,
-        'grado': jugador.gradoEscolar,
+        'grado': jugador.get_gradoEscolar_display(),
         'prof': prof,
         'min_tot': min_full,
         'avg_sesion':avg_sesion,
@@ -223,7 +222,7 @@ def profDashboard(request):
     context = {
         'genero': profesor.get_genero_display(),
         'edad': profesor.edad,
-        'grado': profesor.gradoEscolar,
+        'grado': profesor.get_gradoEscolar_display(),
         'token': profesor.token,
         'students': estudiantes
     }

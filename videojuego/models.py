@@ -77,7 +77,6 @@ class Jugador(models.Model):
     genero = models.IntegerField(choices=Genero.choices, default=Genero.OTRO)
     edad = models.PositiveIntegerField()
     gradoEscolar = models.IntegerField(choices=GradoEscolar.choices, null=False)
-    tiempoJuego = models.PositiveIntegerField(blank=True, null=True)
     ramaPreferida = models.IntegerField(choices=Rama.choices, blank=True, null=True, default=Rama.NONE)
     profesor = models.CharField(max_length=10, blank=True, null=True)
     personaje = models.IntegerField(choices=Personaje.choices, default=Personaje.ASTRO)
