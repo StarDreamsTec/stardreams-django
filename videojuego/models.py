@@ -92,8 +92,11 @@ class Jugador(models.Model):
         return ciencia and tec and ing and mat
 
     def total_time(self):
-        sesion_time = Sesion.objects.filter(jugador=self).annotate(duration=F('fin') - F('inicio'))
-        return sesion_time.aggregate(sum=Sum('duration'))['sum']
+        if Sesion.objects.filter(jugador=self).exists():
+            sesion_time = Sesion.objects.filter(jugador=self).annotate(duration=F('fin') - F('inicio'))
+            return round(sesion_time.aggregate(sum=Sum('duration'))['sum'].total_seconds() / 60, 2)
+        else:
+            return 0
 
     def sesion_num(self):
         count = Sesion.objects.filter(jugador=self).count()

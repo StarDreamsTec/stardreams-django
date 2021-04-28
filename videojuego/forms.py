@@ -63,7 +63,7 @@ class SignUpStudent(UserCreationForm):
         user.save()
         student = Jugador.objects.create(user=user, genero=data['genero'], edad=data['edad'],
                                            gradoEscolar=data['gradoEscolar'], profesor=data['tokenProfesor'])
-        Sesion.objects.create(inicio = datetime.datetime.now(), fin = datetime.datetime.now(), jugador = student)
+        Sesion.objects.create(inicio=datetime.datetime.now(), fin=datetime.datetime.now(), jugador=student)
         return student
 
 

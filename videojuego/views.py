@@ -53,10 +53,9 @@ def indicadores(request):
     completo = reduce(lambda acc, y: acc + 1 if y == 4 else acc, completo_glen, 0)
 
     # PREFERRED BRANCH
-    rama_query = Jugador.objects.values('ramaPreferida').annotate(count=Count('ramaPreferida')).filter(count__gte=1). \
+    rama_query = Jugador.objects.exclude(ramaPreferida=Rama.NONE).values('ramaPreferida').annotate(count=Count('ramaPreferida')).filter(count__gte=1). \
         order_by('count').last()
     rama = Rama.choices[rama_query['ramaPreferida']][1]
-
 
     # ALL TIME MINUTES
     sesion_time = Sesion.objects.annotate(duration=F('fin') - F('inicio'))
