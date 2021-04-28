@@ -4,30 +4,26 @@
 {% block content %}
     <!-- Resto del contenido -->
     <!-- Landing page en el header -->
-        <header id="my-header">
-          <div class="container">
-            <div id="first-box">
-              <div>
-                <p class="p-h1">Stardreams</p>
-              </div>
-
-                <div class="classy-div mx-auto" style="width: 90%;">
-                  <a href="{% static 'ejecutables/0.2/index.html' %}">
-                    <img src="{% static 'assets/icons/play.svg'%}" alt="" style="height: 12px; filter: invert(100%) sepia(0%) saturate(2985%) hue-rotate(215deg) brightness(114%) contrast(101%);">
-                    <a href="{% static 'ejecutables/1.0/Windows/Stardreams_setup.exe' %}" class="p-h3 px-3" style="display: inline;">Descárgalo en PC</a>
-                    <img src="{% static 'assets/icons/play.svg' %}" alt="" style="height: 12px; filter: invert(100%) sepia(0%) saturate(2985%) hue-rotate(215deg) brightness(114%) contrast(101%); transform: rotate(180deg);">
-                  </a>
-                </div>
-                <div class="classy-div mx-auto mt-2" style="width: 90%;">
-                  <a href="{% static 'ejecutables/0.2/index.html' %}">
-                    <img src="{% static 'assets/icons/play.svg'%}" alt="" style="height: 12px; filter: invert(100%) sepia(0%) saturate(2985%) hue-rotate(215deg) brightness(114%) contrast(101%);">
-                    <a href="{% static 'ejecutables/1.0/MacOS/Stardreams_setup.dmg.zip' %}" class="p-h3 px-3" style="display: inline;">Descárgalo en Mac</a>
-                    <img src="{% static 'assets/icons/play.svg' %}" alt="" style="height: 12px; filter: invert(100%) sepia(0%) saturate(2985%) hue-rotate(215deg) brightness(114%) contrast(101%); transform: rotate(180deg);">
-                  </a>
-                </div>
-            </div>
+    <header id="my-header">
+      <div class="container">
+        <div id="first-box">
+          <div class="text-center">
+            <img src="{% static 'assets/imgs/Logo2.png' %}" style="width:500px;">
           </div>
-        </header>
+            <div class="classy-div mx-auto" style="width: 60%;">
+                <img src="{% static 'assets/icons/play.svg'%}" alt="" style="height: 12px; filter: invert(100%) sepia(0%) saturate(2985%) hue-rotate(215deg) brightness(114%) contrast(101%);">
+                <a href="{% static 'ejecutables/1.0/Windows/Stardreams_setup.exe' %}" class="p-h3 px-3" style="display: inline; text-decoration: none; color:white;">Descárgalo en PC</a>
+                <img src="{% static 'assets/icons/play.svg' %}" alt="" style="height: 12px; filter: invert(100%) sepia(0%) saturate(2985%) hue-rotate(215deg) brightness(114%) contrast(101%); transform: rotate(180deg);">
+
+            </div>
+            <div class="classy-div mx-auto mt-2" style="width: 60%;">
+                <img src="{% static 'assets/icons/play.svg'%}" alt="" style="height: 12px; filter: invert(100%) sepia(0%) saturate(2985%) hue-rotate(215deg) brightness(114%) contrast(101%);">
+                <a href="{% static 'ejecutables/1.0/MacOS/Stardreams_setup.dmg.zip' %}" class="p-h3 px-3" style="display: inline; text-decoration: none; color:white;">Descárgalo en Mac</a>
+                <img src="{% static 'assets/icons/play.svg' %}" alt="" style="height: 12px; filter: invert(100%) sepia(0%) saturate(2985%) hue-rotate(215deg) brightness(114%) contrast(101%); transform: rotate(180deg);">
+            </div>
+        </div>
+      </div>
+    </header>
     <main>
       <section id="juego">
         <div class="container-fluid">

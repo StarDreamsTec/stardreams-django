@@ -18,7 +18,7 @@ function distribucionesChart() {
     var options = {
         // title: 'Distribución de Jugadores por género',
         backgroundColor: 'transparent',
-        colors: ["#3AFFFF", "#FF43C0"],
+        colors: ["#3AFFFF", "#FF43C0", "#2cdbfa"],
         legend: {position:'right', aligned:'center', textStyle: {color: 'white'}}
     };
 
@@ -78,7 +78,7 @@ function stemChart(){
     var options = {
         // title: 'Distribución de Jugadores por género',
         backgroundColor: 'transparent',
-        colors: ["#3AFFFF", "#FF43C0"],
+        colors: ["#3AFFFF", "#FF43C0", "#2cdbfa", "#bb348f"],
         legend: {position:'right', aligned:'center', textStyle: {color: 'white'}}
     };
 
