@@ -192,7 +192,7 @@ def studentDashboard(request):
     else:
         min_full = 0
         avg_sesion = 0
-    sesions = Sesion.objects.filter(jugador=jugador).values('inicio', 'fin')
+    sesions= Sesion.objects.filter(jugador=jugador).order_by('-inicio').values('inicio', 'fin')[:10]
     context = {
         'personaje_astro': jugador.personaje == Personaje.ASTRO,
         'coral': ciencia_comp,
