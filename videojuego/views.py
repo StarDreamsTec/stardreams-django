@@ -194,6 +194,7 @@ def studentDashboard(request):
         avg_sesion = 0
     sesions= Sesion.objects.filter(jugador=jugador).order_by('-inicio').values('inicio', 'fin')[:10]
     context = {
+        'rama': jugador.get_ramaPreferida_display(),
         'personaje_astro': jugador.personaje == Personaje.ASTRO,
         'coral': ciencia_comp,
         'astro': tec_comp,
