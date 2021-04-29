@@ -103,6 +103,14 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"></script>
+<script>
+    const navLinks = document.querySelectorAll('.nav-item')
+    const menuToggle = document.getElementById('navbarSupportedContent')
+    const bsCollapse = new bootstrap.Collapse(menuToggle)
+    navLinks.forEach((l) => {
+        l.addEventListener('click', () => { bsCollapse.toggle() })
+    })
+</script>
 
 {% block extra_scripts %} {% endblock %}
 
