@@ -19,6 +19,10 @@
     
 }
 
+#stardreams-logo {
+    width:500px;
+}
+
 #my-header {
     height: 100vh;
     background-image: url(../imgs/MainBG.jpg);
@@ -248,7 +252,7 @@
     margin: auto;
 }
 .character-img {
-    height: 500px;
+    height: 450px;
 }
 
 .sec-text-inside-2 {
@@ -262,6 +266,11 @@
     height: 400px;
     /* text-align: right; */
 }
+
+#stardreams-logo {
+    width:350px;
+}
+
 
 
 }
