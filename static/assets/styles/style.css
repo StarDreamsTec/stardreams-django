@@ -88,6 +88,7 @@
 .classy-div {
     background-color: #E6317B;
     border: 1px solid #FF43C0;
+    width: 60%;
 }
 
 #juego {
@@ -269,6 +270,17 @@
 
 #stardreams-logo {
     width:350px;
+}
+
+.classy-div {
+    width: 70%;
+}
+
+.p-h4 {
+    font-family: 'BlenderPro-Medium', sans-serif;
+    font-size: 18px;
+    color: #fff;
+    margin-bottom: 0;
 }
 
 
