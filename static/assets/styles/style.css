@@ -230,7 +230,7 @@
 @media (max-width: 991.98px) {
 #my-header {
     background-image: url(../imgs/MainBG_small.jpg);
-    background-position: center top;
+    background-position: center bottom;
 
 }
 
